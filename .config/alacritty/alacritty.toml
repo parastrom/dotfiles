@@ -1,0 +1,51 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.normal]
+black = "#32344a"
+blue = "#7aa2f7"
+green = "#9ece6a"
+red = "#f7768e"
+yellow = "#e0af68"
+
+[colors.primary]
+background = "#11121D"
+foreground = "#a9b1d6"
+
+[font]
+size = 10
+
+[font.bold]
+family = "JetBrains Mono Nerd font"
+style = "Bold"
+
+[font.bold_italic]
+family = "JetBrains Mono Nerd Font"
+style = "BoldItalic"
+
+[font.italic]
+family = "JetBrains Mono Nerd Font"
+style = "MediumItalic"
+
+[font.normal]
+family = "JetBrains Mono Nerd Font"
+style = "Medium"
+
+[scrolling]
+history = 1000
+multiplier = 3
+
+[shell]
+program = "/bin/zsh"
+
+[window]
+decorations = "none"
+opacity = 0.85
+
+[window.class]
+general = "Alacritty"
+instance = "Alacritty"
+
+[window.padding]
+x = 5
+y = 5
