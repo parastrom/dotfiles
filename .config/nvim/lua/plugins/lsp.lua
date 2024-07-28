@@ -109,7 +109,7 @@ return {
             args = {},
           }
         },
-        rust_analyzer = {}, --rustacean takes care of this (setup call)
+        rust_analyzer = {},
         solidity = {},
         sqlls = {},
         tailwindcss = {
@@ -198,21 +198,6 @@ return {
           }),
           formatting.black.with({
             extra_args = { "--fast" },
-          }),
-
-          -- diagnostics
-          diagnostics.eslint_d.with({
-            condition = function(utils)
-              return utils.root_has_file({ ".eslintrc.js", ".eslintrc.cjs", ".eslintrc.json" })
-            end,
-          }),
-          diagnostics.flake8,
-
-          -- code actions
-          code_actions.eslint_d.with({
-            condition = function(utils)
-              return utils.root_has_file({ ".eslintrc.js", ".eslintrc.cjs", ".eslintrc.json" })
-            end,
           }),
         },
       })

@@ -17,37 +17,16 @@ local TERM = os.getenv("TERM")
 nnoremap("<space>", "<nop>")
 
 -- Window navigation
-nnoremap("<C-j>", function()
-  if vim.fn.exists(":NvimTmuxNavigateDown") ~= 0 then
-    vim.cmd.NvimTmuxNavigateDown()
-  else
-    vim.cmd.wincmd("j")
-  end
-end)
+nnoremap("<C-h>", require('smart-splits').move_cursor_left)
+nnoremap("<C-j>", require('smart-splits').move_cursor_down)
+nnoremap("<C-k>", require('smart-splits').move_cursor_up)
+nnoremap("<C-l>", require('smart-splits').move_cursor_right)
 
-nnoremap("<C-k>", function()
-  if vim.fn.exists(":NvimTmuxNavigateUp") ~= 0 then
-    vim.cmd.NvimTmuxNavigateUp()
-  else
-    vim.cmd.wincmd("k")
-  end
-end)
+nnoremap("<leader><leader>h", require('smart-splits').swap_buf_left)
+nnoremap("<leader><leader>j", require('smart-splits').swap_buf_down)
+nnoremap("<leader><leader>k", require('smart-splits').swap_buf_up)
+nnoremap("<leader><leader>l", require('smart-splits').swap_buf_right)
 
-nnoremap("<C-l>", function()
-  if vim.fn.exists(":NvimTmuxNavigateRight") ~= 0 then
-    vim.cmd.NvimTmuxNavigateRight()
-  else
-    vim.cmd.wincmd("l")
-  end
-end)
-
-nnoremap("<C-h>", function()
-  if vim.fn.exists(":NvimTmuxNavigateLeft") ~= 0 then
-    vim.cmd.NvimTmuxNavigateLeft()
-  else
-    vim.cmd.wincmd("h")
-  end
-end)
 
 -- Swap between last two buffers
 nnoremap("<leader>'", "<C-^>", { desc = "Switch to last buffer" })
@@ -416,25 +395,10 @@ tnoremap("jj", [[<C-\><C-n>]])
 -- Reenable default <space> functionality to prevent input delay
 tnoremap("<space>", "<space>")
 
--- Trouble keymaps
-nnoremap("<leader>xx", function()
-  require("trouble").toggle()
-end, { desc = "Trouble Toggle" })
-
-nnoremap("<leader>xw", function()
-  require("trouble").toggle("workspace_diagnostics")
-end, { desc = "Trouble Workspace diagnostics" })
-
-nnoremap("<leader>xd", function()
-  require("trouble").toggle("document_diagnostics")
-end, { desc = "Trouble Document diagnostics" })
-
-nnoremap("<leader>xq", function()
-  require("trouble").toggle("quickfix")
-end, { desc = "Trouble Quick Fix" })
-
-nnoremap("<leader>xl", function()
-  require("trouble").toggle("quickfix")
-end, { desc = "Trouble Local List" })
+-- Updated Trouble keymaps using the new API
+nnoremap("<leader>xw", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Trouble Workspace diagnostics" })
+nnoremap("<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Trouble Document diagnostics" })
+nnoremap("<leader>xq", "<cmd>Trouble qflist toggle<cr>", { desc = "Trouble Quick Fix" })
+nnoremap("<leader>xl", "<cmd>Trouble loclist toggle<cr>", { desc = "Trouble Local List" })
 
 return M

@@ -43,10 +43,28 @@ return {
   --     vim.cmd("colorscheme rose-pine")
   --   end,
   -- }
+  -- {
+  --   "Yazeed1s/oh-lucy.nvim",
+  --   config = function()
+  --     vim.cmd("colorscheme oh-lucy")
+  --   end
+  -- }
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   config = function()
+  --     require("kanagawa").load("wave")
+  --   end
+  -- }
   {
-    "Yazeed1s/oh-lucy.nvim",
+    'sainnhe/everforest',
+    lazy = false,
+    priority = 1000,
     config = function()
-      vim.cmd("colorscheme oh-lucy")
+      -- Optionally configure and load the colorscheme
+      -- directly inside the plugin declaration.
+      vim.o.background = 'dark'
+      vim.g.everforest_enable_italic = false
+      vim.cmd.colorscheme('everforest')
     end
   }
 }
