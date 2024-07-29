@@ -40,7 +40,7 @@ return {
 
       require("lualine").setup({
         options = {
-          theme = "oh_lucy",
+          theme = "everforest",
           globalstatus = true,
           component_separators = { left = "█", right = "█" },
           section_separators = { left = "█", right = "█" },
