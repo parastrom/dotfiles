@@ -19,8 +19,16 @@ unset __conda_setup
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+<<<<<<< HEAD
 
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/cuda-12.1/lib64
 export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 export PATH="$PATH:$HOME/.foundry/bin"
 export PATH="$HOME/.avm/bin:$PATH"
+=======
+add_to_path "/usr/local/go/bin"
+add_to_path "$HOME/bin"
+add_to_path "/usr/local/bin"
+add_to_path "/usr/bin"
+add_to_path "/opt/nvim/nvim"
+>>>>>>> 6835d38 (work changes)

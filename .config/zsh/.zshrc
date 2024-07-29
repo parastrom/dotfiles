@@ -65,8 +65,25 @@ bindkey '^e' edit-command-line
 # alias tmux ="TERM=screen-256color-bce tmux"
 
 
-POWERLEVEL9K_SHORTEN_STRATEGY=truncate_to_last
 
+<<<<<<< HEAD
+=======
+function run_local_sirius() {
+    export CONSOLE=1 
+    export CRYPPRO_REGION=region-1 
+    export RUST_BACKTRACE=1 
+    export RUST_LOG=TRACE 
+    export CRYPPRO_MUTE_NOTIFIER=1 
+    export CRYPPRO_SERVICE_MAP=/mnt/storage/configs/rust_service_map.yml 
+    export CARGO_PROFILE_RELEASE_DEBUG=true
+    cargo run -- $@
+}
+
+export AWS_PROFILE=developer
+export CRYPPRO_AWS_PROFILE=developer
+
+eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/stelbent.minimal.omp.json)"
+>>>>>>> 6835d38 (work changes)
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme

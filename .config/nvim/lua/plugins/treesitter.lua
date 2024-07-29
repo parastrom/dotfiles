@@ -1,4 +1,5 @@
 return {
+<<<<<<< HEAD
   {
     "nvim-treesitter/nvim-treesitter",
     build = function()
@@ -54,6 +55,63 @@ return {
           enable = true,
         },
         --[[ context_commentstring = {
+=======
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = function()
+			require("nvim-treesitter.install").update({ with_sync = true })
+		end,
+		event = { "BufEnter" },
+		dependencies = {
+			-- Additional text objects for treesitter
+			"nvim-treesitter/nvim-treesitter-textobjects",
+		},
+		config = function()
+			---@diagnostic disable: missing-fields
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = {
+					"bash",
+					"c",
+					"cpp",
+					"cuda",
+					"cmake",
+					"css",
+					"gleam",
+					"graphql",
+					"go",
+					"html",
+					"javascript",
+					"json",
+					"lua",
+					"markdown",
+					"markdown_inline",
+					"ninja",
+					"ocaml",
+					"ocaml_interface",
+					"prisma",
+					"python",
+					"rust",
+					"tsx",
+					"typescript",
+					"vim",
+					-- "yaml", This is currently borked see: https://github.com/ikatyang/tree-sitter-yaml/issues/53
+				},
+				sync_install = false,
+				highlight = {
+					enable = true,
+				},
+				indent = {
+					enable = true,
+					disable = { "ocaml", "ocaml_interface" },
+				},
+				autopairs = {
+					enable = true,
+				},
+				autotag = {
+					enable = true,
+				},
+				--[[ context_commentstring = {
+>>>>>>> 6835d38 (work changes)
 					enable = true,
 					enable_autocmd = false,
 				}, ]]

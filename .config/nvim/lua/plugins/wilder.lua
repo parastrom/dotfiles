@@ -1,23 +1,12 @@
 return {
   {
     "gelguy/wilder.nvim",
-    keys = {
-      ":",
-      "/",
-      "?",
-    },
-    dependencies = {
-
-      "Yazeed1s/oh-lucy.nvim",
-    },
     config = function()
       local wilder = require("wilder")
 
       -- Create a highlight group for the popup menu
-      local text_highlight =
-          wilder.make_hl("WilderText", { { a = 1 }, { a = 1 }, { foreground = "#e0def4" } })
-      local foam_highlight =
-          wilder.make_hl("WilderFoam", { { a = 1 }, { a = 1 }, { foreground = "#31748f" } })
+      local text_highlight = wilder.make_hl("WilderText", { { a = 1 }, { a = 1 }, { foreground = "#e0def4" } })
+      local foam_highlight = wilder.make_hl("WilderFoam", { { a = 1 }, { a = 1 }, { foreground = "#31748f" } })
 
       -- Enable wilder when pressing :, / or ?
       wilder.setup({ modes = { ":", "/", "?" } })
