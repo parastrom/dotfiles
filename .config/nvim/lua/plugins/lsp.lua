@@ -7,19 +7,16 @@ return {
       -- Plugin and UI to automatically install LSPs to stdpath
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-
       "hrsh7th/cmp-nvim-lsp",
-      -- Install none-ls for diagnostics, code actions, and formatting
-      "nvimtools/none-ls.nvim",
-
       -- Install neodev for better nvim configuration and plugin authoring via lsp configurations
       "folke/neodev.nvim",
+      "stevearc/conform.nvim",
 
       -- Progress/Status update for LSP
       { "j-hui/fidget.nvim", tag = "legacy" },
     },
     config = function()
-      local null_ls = require("null-ls")
+      local conform = require("conform")
       local map_lsp_keybinds = require("user.keymaps").map_lsp_keybinds -- Has to load keymaps before pluginslsp
 
       -- Use neodev to configure lua_ls in nvim directories - must load before lspconfig
@@ -109,7 +106,7 @@ return {
             args = {},
           }
         },
-        rust_analyzer = {},
+        -- rust_analyzer = {},
         solidity = {},
         sqlls = {},
         tailwindcss = {
@@ -149,22 +146,8 @@ return {
 
         -- Create a command `:Format` local to the LSP buffer
         vim.api.nvim_buf_create_user_command(buffer_number, "Format", function(_)
-          vim.lsp.buf.format({
-            filter = function(format_client)
-              -- Use Prettier to format TS/JS if it's available
-              return format_client.name ~= "tsserver" or not null_ls.is_registered("prettier")
-            end,
-          })
-        end, { desc = "LSP: Format current buffer with LSP" })
-
-        -- if client.server_capabilities.codeLensProvider then
-        -- 	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "CursorHold" }, {
-        -- 		buffer = buffer_number,
-        -- 		callback = vim.lsp.codelens.refresh,
-        -- 		desc = "LSP: Refresh code lens",
-        -- 		group = vim.api.nvim_create_augroup("codelens", { clear = true }),
-        -- 	})
-        -- end
+          require("conform").format({ bufnr = buffer_number })
+        end, { desc = "Format current buffer with LSP" })
       end
 
       -- Iterate over our servers and set them up
@@ -178,27 +161,28 @@ return {
         })
       end
 
-      -- Patch Rust autofmt solution
-
       -- Congifure LSP linting, formatting, diagnostics, and code actions
-      local formatting = null_ls.builtins.formatting
-      local diagnostics = null_ls.builtins.diagnostics
-      local code_actions = null_ls.builtins.code_actions
 
-      null_ls.setup({
-        border = "rounded",
-        sources = {
-          -- formatting
-          formatting.prettier,
-          formatting.stylua,
-          formatting.rustfmt,
-          formatting.clang_format,
-          formatting.prettier.with({
-            extra_filetypes = { "typescript", "typescriptreact, javascript" },
-          }),
-          formatting.black.with({
-            extra_args = { "--fast" },
-          }),
+      conform.setup({
+        formatters_by_ft = {
+          lua = { "stylua" },
+          python = { "ruff_lsp" },
+          javascript = { "prettier" },
+          typescript = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescriptreact = { "prettier" },
+          css = { "prettier" },
+          html = { "prettier" },
+          json = { "prettier" },
+          yaml = { "prettier" },
+          markdown = { "prettier" },
+          rust = { "rustfmt" },
+          c = { "clang_format" },
+          cpp = { "clang_format" },
+        },
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_fallback = true,
         },
       })
 

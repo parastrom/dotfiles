@@ -6,18 +6,14 @@ return {
       "/",
       "?",
     },
-    dependencies = {
-
-      "Yazeed1s/oh-lucy.nvim",
-    },
     config = function()
       local wilder = require("wilder")
 
-      -- Create a highlight group for the popup menu
-      local text_highlight =
-          wilder.make_hl("WilderText", { { a = 1 }, { a = 1 }, { foreground = "#e0def4" } })
-      local foam_highlight =
-          wilder.make_hl("WilderFoam", { { a = 1 }, { a = 1 }, { foreground = "#31748f" } })
+      -- Create highlight groups using theme colors
+      local text_highlight = wilder.make_hl("WilderText", "Normal")
+      local accent_highlight = wilder.make_hl("WilderAccent", "Statement")
+      local border_highlight = wilder.make_hl("WilderBorder", "Comment")
+
 
       -- Enable wilder when pressing :, / or ?
       wilder.setup({ modes = { ":", "/", "?" } })
@@ -40,8 +36,8 @@ return {
           highlighter = wilder.basic_highlighter(),
           highlights = {
             default = text_highlight,
-            border = foam_highlight,
-            accent = foam_highlight,
+            border = border_highlight,
+            accent = accent_highlight,
           },
           pumblend = 5,
           min_width = "100%",
