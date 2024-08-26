@@ -42,6 +42,20 @@ return {
         },
       })
 
+      local palette = require 'nordic.colors'
+      require 'nordic'.setup {
+        override = {
+          TelescopePromptTitle = {
+            fg = palette.red.bright,
+            bg = palette.green.base,
+            italic = true,
+            underline = true,
+            sp = palette.yellow.dim,
+            undercurl = false
+          }
+        }
+      }
+
       -- Enable telescope fzf native, if installed
       require("telescope").load_extension("live_grep_args")
       pcall(require("telescope").load_extension, "fzf")

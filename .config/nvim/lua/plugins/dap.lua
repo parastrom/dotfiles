@@ -13,8 +13,10 @@ return {
       local dapui = require("dapui")
       -- Define sign icons for breakpoints
       vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-      vim.fn.sign_define("DapBreakpointCondition",
-        { text = "◆", texthl = "DapBreakpointCondition", linehl = "", numhl = "" })
+      vim.fn.sign_define(
+        "DapBreakpointCondition",
+        { text = "◆", texthl = "DapBreakpointCondition", linehl = "", numhl = "" }
+      )
       vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
       vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DapStopped", linehl = "DapStopped", numhl = "" })
       vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
@@ -32,25 +34,6 @@ return {
         dapui.open()
       end
 
-      local function find_cargo_toml()
-        local current_file = vim.fn.expand('%:p')
-        local current_dir = vim.fn.fnamemodify(current_file, ':h')
-        local cargo_toml = vim.fn.findfile("Cargo.toml", current_dir .. ";")
-
-        -- If we're in the root of the monorepo, we might need to look for a Cargo.toml in subdirectories
-        if cargo_toml == "" then
-          for _, dir in ipairs(vim.fn.globpath(current_dir, "**/Cargo.toml", 0, 1)) do
-            if string.match(current_file, vim.fn.fnamemodify(dir, ":h")) then
-              cargo_toml = dir
-              break
-            end
-          end
-        end
-
-        return cargo_toml ~= "" and vim.fn.fnamemodify(cargo_toml, ":p") or ""
-      end
-
-
       -- dap.listeners.before.event_terminated["dapui_config"] = function()
       --   dapui.close()
       -- end
@@ -58,31 +41,36 @@ return {
       --   dapui.close()
       -- end
 
+      local codelldb_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/codelldb"
+      local codelldb_exists = vim.fn.filereadable(codelldb_path) == 1
+
       dap.adapters.codelldb = {
-        type = 'server',
+        type = "server",
         port = "${port}",
-        executable = {
-          command = vim.fn.stdpath("data") .. '/mason/bin/codelldb',
+        executable = codelldb_exists and {
+          command = codelldb_path,
           args = { "--port", "${port}" },
-        }
+        } or nil,
       }
+
+      if not codelldb_exists then
+        vim.notify("codelldb not found. Please install it using :MasonInstall codelldb", vim.log.levels.WARN)
+      end
+
       dap.configurations.rust = {
         {
           name = "Debug Rust",
           type = "codelldb",
           request = "launch",
           program = function()
-            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/target/debug/', 'file')
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
           end,
-          cwd = function()
-            local cargo_toml = find_cargo_toml()
-            return cargo_toml ~= "" and vim.fn.fnamemodify(cargo_toml, ":p:h") or vim.fn.getcwd()
-          end,
+          cwd = "${workspaceFolder}",
           stopOnEntry = false,
           args = {},
           runInTerminal = false,
         },
       }
-    end
-  }
+    end,
+  },
 }

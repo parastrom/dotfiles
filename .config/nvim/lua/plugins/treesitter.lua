@@ -26,6 +26,7 @@ return {
           "javascript",
           "json",
           "lua",
+          "luadoc",
           "markdown",
           "markdown_inline",
           "ninja",
@@ -37,7 +38,8 @@ return {
           "tsx",
           "typescript",
           "vim",
-          -- "yaml", This is currently borked see: https://github.com/ikatyang/tree-sitter-yaml/issues/53
+          "vimdoc",
+          "yaml",
         },
         sync_install = false,
         highlight = {

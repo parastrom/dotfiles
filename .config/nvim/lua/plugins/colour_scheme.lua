@@ -55,18 +55,18 @@ return {
   --     require("kanagawa").load("wave")
   --   end
   -- }
-  {
-    'sainnhe/everforest',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      -- Optionally configure and load the colorscheme
-      -- directly inside the plugin declaration.
-      vim.o.background = 'dark'
-      vim.g.everforest_enable_italic = false
-      vim.cmd.colorscheme('everforest')
-    end
-  }
+  -- {
+  --   'sainnhe/everforest',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     -- Optionally configure and load the colorscheme
+  --     -- directly inside the plugin declaration.
+  --     vim.o.background = 'dark'
+  --     vim.g.everforest_enable_italic = false
+  --     vim.cmd.colorscheme('everforest')
+  --   end
+  -- }
   -- {
   --   "ramojus/mellifluous.nvim",
   --   config = function()
@@ -75,4 +75,12 @@ return {
   --     vim.o.background = 'light'
   --   end
   -- }
+  {
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require 'nordic'.load()
+    end
+  }
 }

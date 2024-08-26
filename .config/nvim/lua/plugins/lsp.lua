@@ -35,34 +35,6 @@ return {
       })
 
       -- Override tsserver diagnostics to filter out specific messages
-      local messages_to_filter = {
-        "This may be converted to an async function.",
-        "'_Assertion' is declared but never used.",
-        "'__Assertion' is declared but never used.",
-        "The signature '(data: string): string' of 'atob' is deprecated.",
-        "The signature '(data: string): string' of 'btoa' is deprecated.",
-      }
-
-      local function tsserver_on_publish_diagnostics_override(_, result, ctx, config)
-        local filtered_diagnostics = {}
-
-        for _, diagnostic in ipairs(result.diagnostics) do
-          local found = false
-          for _, message in ipairs(messages_to_filter) do
-            if diagnostic.message == message then
-              found = true
-              break
-            end
-          end
-          if not found then
-            table.insert(filtered_diagnostics, diagnostic)
-          end
-        end
-
-        result.diagnostics = filtered_diagnostics
-
-        vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
-      end
 
       -- LSP servers to install (see list here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers )
       local servers = {
@@ -100,12 +72,7 @@ return {
             },
           },
         },
-        ruff_lsp = {
-          init_options = {
-            -- Any Extra CLI arguments for ruff go here
-            args = {},
-          }
-        },
+        ruff = {},
         -- rust_analyzer = {},
         solidity = {},
         sqlls = {},
@@ -119,10 +86,7 @@ return {
             },
           },
           handlers = {
-            ["textDocument/publishDiagnostics"] = vim.lsp.with(
-              tsserver_on_publish_diagnostics_override,
-              {}
-            ),
+            ["textDocument/publishDiagnostics"] = {},
           },
         },
         yamlls = {},
@@ -158,6 +122,7 @@ return {
           handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
           on_attach = on_attach,
           settings = config.settings,
+          vim.lsp.inlay_hint.enable(true),
         })
       end
 
