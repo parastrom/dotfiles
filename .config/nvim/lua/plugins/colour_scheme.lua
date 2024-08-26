@@ -80,7 +80,19 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      require 'nordic'.load()
+      local nordic = require("nordic")
+      nordic.setup({
+        override = {
+          ["@parameter"] = { italic = false },
+          ["@variable.builtin"] = { italic = false },
+          ["@field"] = { italic = false },
+          ["@property"] = { italic = false },
+        }
+      })
+      nordic.load()
     end
+  },
+  {
+
   }
 }

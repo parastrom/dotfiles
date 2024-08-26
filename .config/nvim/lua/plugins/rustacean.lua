@@ -5,7 +5,7 @@ return {
       "mfussenegger/nvim-dap",
       "nvim-lua/plenary.nvim",
     },
-    version = "^4",
+    version = "^5",
     ft = { "rust" },
     opts = {
       server = {
