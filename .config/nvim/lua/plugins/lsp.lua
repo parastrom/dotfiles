@@ -1,5 +1,4 @@
 return {
-<<<<<<< HEAD
 	{
 		"neovim/nvim-lspconfig",
 		event = { "BufReadPost" },
@@ -8,41 +7,14 @@ return {
 			-- Plugin and UI to automatically install LSPs to stdpath
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-
 			"hrsh7th/cmp-nvim-lsp",
-			-- Install none-ls for diagnostics, code actions, and formatting
-			"nvimtools/none-ls.nvim",
-
 			-- Install neodev for better nvim configuration and plugin authoring via lsp configurations
 			"folke/neodev.nvim",
-
-			-- Progress/Status update for LSP
-			{ "j-hui/fidget.nvim", tag = "legacy" },
+			"stevearc/conform.nvim",
 		},
 		config = function()
-			local null_ls = require("null-ls")
+			local conform = require("conform")
 			local map_lsp_keybinds = require("user.keymaps").map_lsp_keybinds -- Has to load keymaps before pluginslsp
-=======
-  {
-    "neovim/nvim-lspconfig",
-    event = { "BufReadPost" },
-    cmd = { "LspInfo", "LspInstall", "LspUninstall", "Mason" },
-    dependencies = {
-      -- Plugin and UI to automatically install LSPs to stdpath
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
-      "hrsh7th/cmp-nvim-lsp",
-      -- Install neodev for better nvim configuration and plugin authoring via lsp configurations
-      "folke/neodev.nvim",
-      "stevearc/conform.nvim",
-
-      -- Progress/Status update for LSP
-      { "j-hui/fidget.nvim", tag = "legacy" },
-    },
-    config = function()
-      local conform = require("conform")
-      local map_lsp_keybinds = require("user.keymaps").map_lsp_keybinds -- Has to load keymaps before pluginslsp
->>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
 
 			-- Use neodev to configure lua_ls in nvim directories - must load before lspconfig
 			require("neodev").setup()
@@ -59,108 +31,8 @@ return {
 				automatic_installation = { exclude = { "ocamllsp", "gleam" } },
 			})
 
-<<<<<<< HEAD
 			-- Override tsserver diagnostics to filter out specific messages
-			local messages_to_filter = {
-				"This may be converted to an async function.",
-				"'_Assertion' is declared but never used.",
-				"'__Assertion' is declared but never used.",
-				"The signature '(data: string): string' of 'atob' is deprecated.",
-				"The signature '(data: string): string' of 'btoa' is deprecated.",
-			}
 
-			local function tsserver_on_publish_diagnostics_override(_, result, ctx, config)
-				local filtered_diagnostics = {}
-
-				for _, diagnostic in ipairs(result.diagnostics) do
-					local found = false
-					for _, message in ipairs(messages_to_filter) do
-						if diagnostic.message == message then
-							found = true
-							break
-						end
-					end
-					if not found then
-						table.insert(filtered_diagnostics, diagnostic)
-					end
-				end
-
-				result.diagnostics = filtered_diagnostics
-
-				vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
-			end
-=======
-      -- Override tsserver diagnostics to filter out specific messages
->>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
-
-<<<<<<< HEAD
-      -- LSP servers to install (see list here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers )
-      local servers = {
-        bashls = {},
-        cssls = {},
-        clangd = {
-          cmd = { "--offset-encoding=utf-32" },
-        },
-        gleam = {},
-        graphql = {},
-        html = {},
-        jsonls = {},
-        lua_ls = {
-          settings = {
-            Lua = {
-              workspace = { checkThirdParty = false },
-              telemetry = { enabled = false },
-            },
-          },
-        },
-        marksman = {},
-        ocamllsp = {},
-        prismals = {},
-        pyright = {
-          settings = {
-            -- pyright settings
-            pyright = {
-              disableOrganizeImports = true -- Using Ruff
-            },
-            python = {
-              analysis = {
-                ignore = { '*' }, -- Using Ruff
-                typeCheckingMode = "standard",
-              },
-            },
-          },
-        },
-<<<<<<< HEAD
-        ruff_lsp = {
-          init_options = {
-            -- Any Extra CLI arguments for ruff go here
-            args = {},
-          }
-        },
-        rust_analyzer = {},
-=======
-        ruff = {},
-        -- rust_analyzer = {},
->>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
-        solidity = {},
-        sqlls = {},
-        tailwindcss = {
-          -- filetypes = { "reason" },
-        },
-        tsserver = {
-          settings = {
-            experimental = {
-              enableProjectDiagnostics = true,
-            },
-          },
-          handlers = {
-            ["textDocument/publishDiagnostics"] = {},
-          },
-        },
-        yamlls = {},
-        zls = {},
-      }
-=======
 			-- LSP servers to install (see list here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers )
 			local servers = {
 				bashls = {},
@@ -197,13 +69,8 @@ return {
 						},
 					},
 				},
-				ruff_lsp = {
-					init_options = {
-						-- Any Extra CLI arguments for ruff go here
-						args = {},
-					},
-				},
-				rust_analyzer = {}, --rustacean takes care of this (setup call)
+				ruff = {},
+				-- rust_analyzer = {},
 				solidity = {},
 				sqlls = {},
 				tailwindcss = {
@@ -216,16 +83,12 @@ return {
 						},
 					},
 					handlers = {
-						["textDocument/publishDiagnostics"] = vim.lsp.with(
-							tsserver_on_publish_diagnostics_override,
-							{}
-						),
+						["textDocument/publishDiagnostics"] = {},
 					},
 				},
 				yamlls = {},
 				zls = {},
 			}
->>>>>>> 6835d38 (work changes)
 
 			-- Default handlers for LSP
 			local default_handlers = {
@@ -242,25 +105,10 @@ return {
 				-- Pass the current buffer to map lsp keybinds
 				map_lsp_keybinds(buffer_number)
 
-<<<<<<< HEAD
 				-- Create a command `:Format` local to the LSP buffer
 				vim.api.nvim_buf_create_user_command(buffer_number, "Format", function(_)
-					vim.lsp.buf.format({
-						filter = function(format_client)
-							-- Use Prettier to format TS/JS if it's available
-							return format_client.name ~= "tsserver" or not null_ls.is_registered("prettier")
-						end,
-					})
-				end, { desc = "LSP: Format current buffer with LSP" })
-
-				-- if client.server_capabilities.codeLensProvider then
-				-- 	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "CursorHold" }, {
-				-- 		buffer = buffer_number,
-				-- 		callback = vim.lsp.codelens.refresh,
-				-- 		desc = "LSP: Refresh code lens",
-				-- 		group = vim.api.nvim_create_augroup("codelens", { clear = true }),
-				-- 	})
-				-- end
+					require("conform").format({ bufnr = buffer_number })
+				end, { desc = "Format current buffer with LSP" })
 			end
 
 			-- Iterate over our servers and set them up
@@ -271,102 +119,32 @@ return {
 					handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
 					on_attach = on_attach,
 					settings = config.settings,
+					vim.lsp.inlay_hint.enable(true),
 				})
 			end
 
-			-- Patch Rust autofmt solution
-
 			-- Congifure LSP linting, formatting, diagnostics, and code actions
-			local formatting = null_ls.builtins.formatting
-			local diagnostics = null_ls.builtins.diagnostics
-			local code_actions = null_ls.builtins.code_actions
 
-<<<<<<< HEAD
-      null_ls.setup({
-        border = "rounded",
-        sources = {
-          -- formatting
-          formatting.prettier,
-          formatting.stylua,
-          formatting.rustfmt,
-          formatting.clang_format,
-          formatting.prettier.with({
-            extra_filetypes = { "typescript", "typescriptreact, javascript" },
-          }),
-          formatting.black.with({
-            extra_args = { "--fast" },
-          }),
-=======
-        -- Create a command `:Format` local to the LSP buffer
-        vim.api.nvim_buf_create_user_command(buffer_number, "Format", function(_)
-          require("conform").format({ bufnr = buffer_number })
-        end, { desc = "Format current buffer with LSP" })
-      end
-
-      -- Iterate over our servers and set them up
-      for name, config in pairs(servers) do
-        require("lspconfig")[name].setup({
-          capabilities = default_capabilities,
-          filetypes = config.filetypes,
-          handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
-          on_attach = on_attach,
-          settings = config.settings,
-          vim.lsp.inlay_hint.enable(true),
-        })
-      end
-
-      -- Congifure LSP linting, formatting, diagnostics, and code actions
-
-      conform.setup({
-        formatters_by_ft = {
-          lua = { "stylua" },
-          python = { "ruff_lsp" },
-          javascript = { "prettier" },
-          typescript = { "prettier" },
-          javascriptreact = { "prettier" },
-          typescriptreact = { "prettier" },
-          css = { "prettier" },
-          html = { "prettier" },
-          json = { "prettier" },
-          yaml = { "prettier" },
-          markdown = { "prettier" },
-          rust = { "rustfmt" },
-          c = { "clang_format" },
-          cpp = { "clang_format" },
-        },
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_fallback = true,
->>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
-        },
-      })
-
-      -- Configure borderd for LspInfo ui
-      require("lspconfig.ui.windows").default_options.border = "rounded"
-
-      -- Configure diagostics border
-      vim.diagnostic.config({
-        float = {
-          border = "rounded",
-        },
-      })
-    end,
-  },
-=======
-			null_ls.setup({
-				border = "rounded",
-				sources = {
-					-- formatting
-					formatting.prettier,
-					formatting.stylua,
-					formatting.rustfmt,
-					formatting.clang_format,
-					formatting.prettier.with({
-						extra_filetypes = { "typescript", "typescriptreact, javascript" },
-					}),
-					formatting.black.with({
-						extra_args = { "--fast" },
-					}),
+			conform.setup({
+				formatters_by_ft = {
+					lua = { "stylua" },
+					python = { "ruff_lsp" },
+					javascript = { "prettier" },
+					typescript = { "prettier" },
+					javascriptreact = { "prettier" },
+					typescriptreact = { "prettier" },
+					css = { "prettier" },
+					html = { "prettier" },
+					json = { "prettier" },
+					yaml = { "prettier" },
+					markdown = { "prettier" },
+					rust = { "rustfmt" },
+					c = { "clang_format" },
+					cpp = { "clang_format" },
+				},
+				format_on_save = {
+					timeout_ms = 500,
+					lsp_fallback = true,
 				},
 			})
 
@@ -381,5 +159,4 @@ return {
 			})
 		end,
 	},
->>>>>>> 6835d38 (work changes)
 }
