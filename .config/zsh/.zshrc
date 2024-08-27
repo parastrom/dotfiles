@@ -1,7 +1,3 @@
-# Enable colors and change prompt:
-autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
@@ -54,23 +50,12 @@ bindkey -s '^o' 'lfcd\n'
 # Edit line in vim with ctrl-e:
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
+export VISUAL=nvim
 
 # Load aliases and shortcuts if existent.
 [ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
 
-# Alias for tmux with 256-color support
-# alias tmux ="TERM=screen-256color-bce tmux"
-
-<<<<<<< HEAD
-
-=======
-eval "$(oh-my-posh init zsh --config ~/.poshthemes/stelbent.minimal.omp.json)"
-source "$HOME/.rye/env"
->>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
-
-<<<<<<< HEAD
-=======
 function run_local_sirius() {
     export CONSOLE=1 
     export CRYPPRO_REGION=region-1 
@@ -85,8 +70,7 @@ function run_local_sirius() {
 export AWS_PROFILE=developer
 export CRYPPRO_AWS_PROFILE=developer
 
-eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/stelbent.minimal.omp.json)"
->>>>>>> 6835d38 (work changes)
+eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/pure.omp.json)"
+
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
