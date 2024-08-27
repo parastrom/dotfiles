@@ -18,10 +18,14 @@ nnoremap("<space>", "<nop>")
 
 -- Window navigation
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
 nnoremap("<C-h>", require('smart-splits').move_cursor_left)
 nnoremap("<C-j>", require('smart-splits').move_cursor_down)
 nnoremap("<C-k>", require('smart-splits').move_cursor_up)
 nnoremap("<C-l>", require('smart-splits').move_cursor_right)
+<<<<<<< HEAD
 
 nnoremap("<leader><leader>h", require('smart-splits').swap_buf_left)
 nnoremap("<leader><leader>j", require('smart-splits').swap_buf_down)
@@ -61,6 +65,14 @@ nnoremap("<C-h>", function()
 	end
 end)
 >>>>>>> 6835d38 (work changes)
+=======
+
+nnoremap("<leader><leader>h", require('smart-splits').swap_buf_left)
+nnoremap("<leader><leader>j", require('smart-splits').swap_buf_down)
+nnoremap("<leader><leader>k", require('smart-splits').swap_buf_up)
+nnoremap("<leader><leader>l", require('smart-splits').swap_buf_right)
+
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
 
 -- Swap between last two buffers
 nnoremap("<leader>'", "<C-^>", { desc = "Switch to last buffer" })
@@ -78,6 +90,7 @@ nnoremap("<leader>z", "<cmd>wq<cr>", { silent = false })
 nnoremap("<leader>e", function()
 	require("oil").toggle_float()
 end)
+
 -- Center buffer while navigating
 nnoremap("<C-u>", "<C-u>zz")
 nnoremap("<C-d>", "<C-d>zz")
@@ -191,17 +204,11 @@ nnoremap("<leader>m", ":MaximizerToggle<cr>")
 -- Resize split windows to be equal size
 nnoremap("<leader>=", "<C-w>=")
 
--- Go to previous window
-nnoremap("<leader>wp", "<C-w>p")
-
 -- Create new vertical window
 nnoremap("<leader>wv", "<C-w>v")
 
--- Move to the left window
-nnoremap("<leader>wh", "<C-w>h")
-
--- Move to the right window
-nnoremap("<leader>wl", "<C-w>l")
+-- Create new horizontal window
+nnoremap("<leader>ws", "<C-w>s")
 
 --Hide the current window
 nnoremap("<leader>h", ":hide<CR>")
@@ -214,9 +221,6 @@ nnoremap("<leader>rw", ":RotateWindows<cr>", { desc = "[R]otate [W]indows" })
 
 -- Press gx to open the link under the cursor
 nnoremap("gx", ":sil !open <cWORD><cr>", { silent = true })
-
--- TSC autocommand keybind to run TypeScripts tsc
-nnoremap("<leader>tc", ":TSC<cr>", { desc = "[T]ypeScript [C]ompile" })
 
 -- Harpoon keybinds --
 -- Open harpoon ui
@@ -366,9 +370,6 @@ M.map_lsp_keybinds = function(buffer_number)
 	nnoremap("td", vim.lsp.buf.type_definition, { desc = "LSP: [T]ype [D]efinition", buffer = buffer_number })
 end
 
--- Symbol Outline keybind
-nnoremap("<leader>so", ":SymbolsOutline<cr>")
-
 -- Vim Illuminate keybinds
 nnoremap("<leader>]", function()
 	illuminate.goto_next_reference()
@@ -384,10 +385,6 @@ end, { desc = "Illuminate: Goto previous reference" })
 nnoremap("<leader>oc", function()
 	require("copilot.panel").open({})
 end, { desc = "[O]pen [C]opilot panel" })
-
--- Insert --
--- Map jj to <esc>
-inoremap("jj", "<esc>")
 
 -- Visual --
 -- Disable Space bar since it'll be used as the leader key
@@ -420,23 +417,26 @@ end)
 tnoremap("<esc>", [[<C-\><C-n>]])
 tnoremap("jj", [[<C-\><C-n>]])
 
--- Window navigation from terminal
--- tnoremap("<C-h>", [[<Cmd>wincmd h<CR>]])
--- tnoremap("<C-j>", [[<Cmd>wincmd j<CR>]])
--- tnoremap("<C-k>", [[<Cmd>wincmd k<CR>]])
--- tnoremap("<C-l>", [[<Cmd>wincmd l<CR>]])
-
 -- Reenable default <space> functionality to prevent input delay
 tnoremap("<space>", "<space>")
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 -- Updated Trouble keymaps using the new API
 =======
 -- Trouble keymaps
 >>>>>>> 6835d38 (work changes)
+=======
+-- Updated Trouble keymaps using the new API
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
 nnoremap("<leader>xw", "<cmd>Trouble diagnostics toggle<cr>", { desc = "Trouble Workspace diagnostics" })
 nnoremap("<leader>xd", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", { desc = "Trouble Document diagnostics" })
 nnoremap("<leader>xq", "<cmd>Trouble qflist toggle<cr>", { desc = "Trouble Quick Fix" })
 nnoremap("<leader>xl", "<cmd>Trouble loclist toggle<cr>", { desc = "Trouble Local List" })
+<<<<<<< HEAD
+=======
+nnoremap("<leader>so", "<cmd>Trouble symbols toggle pinned=true win.relative=win win.position=right<cr>",
+  { desc = "Trouble Symbol Outline" })
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
 
 return M

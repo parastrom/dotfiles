@@ -24,19 +24,6 @@ return {
         end
         return notify(message, level, merged_opts)
       end
-
-      -- Update colors to use Rose Pine colors
-      vim.cmd([[
-        highlight NotifyERRORBorder guifg=#E85A84
-        highlight NotifyERRORIcon guifg=#E85A84
-        highlight NotifyERRORTitle guifg=#E85A84
-        highlight NotifyINFOBorder guifg=#89BEB7
-        highlight NotifyINFOIcon guifg=#89BEB7
-        highlight NotifyINFOTitle guifg=#89BEB7
-        highlight NotifyWARNBorder guifg=#E9D26C
-        highlight NotifyWARNIcon guifg=#E9D26C
-        highlight NotifyWARNTitle guifg=#E9D26C
-      ]])
     end,
   },
 }

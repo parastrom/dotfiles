@@ -56,6 +56,7 @@ return {
   --     require("kanagawa").load("wave")
   --   end
   -- }
+<<<<<<< HEAD
   {
     'sainnhe/everforest',
     lazy = false,
@@ -66,7 +67,47 @@ return {
       vim.o.background = 'dark'
       vim.g.everforest_enable_italic = false
       vim.cmd.colorscheme('everforest')
+=======
+  -- {
+  --   'sainnhe/everforest',
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     -- Optionally configure and load the colorscheme
+  --     -- directly inside the plugin declaration.
+  --     vim.o.background = 'dark'
+  --     vim.g.everforest_enable_italic = false
+  --     vim.cmd.colorscheme('everforest')
+  --   end
+  -- }
+  -- {
+  --   "ramojus/mellifluous.nvim",
+  --   config = function()
+  --     require("mellifluous").setup({}) -- optional, see configuration section.
+  --     vim.cmd("colorscheme mellifluous")
+  --     vim.o.background = 'light'
+  --   end
+  -- }
+  {
+    'AlexvZyl/nordic.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      local nordic = require("nordic")
+      nordic.setup({
+        override = {
+          ["@parameter"] = { italic = false },
+          ["@variable.builtin"] = { italic = false },
+          ["@field"] = { italic = false },
+          ["@property"] = { italic = false },
+        }
+      })
+      nordic.load()
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
     end
+  },
+  {
+
   }
 =======
 	-- {

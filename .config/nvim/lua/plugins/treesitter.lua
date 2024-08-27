@@ -1,5 +1,8 @@
 return {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
   {
     "nvim-treesitter/nvim-treesitter",
     build = function()
@@ -27,6 +30,10 @@ return {
           "javascript",
           "json",
           "lua",
+<<<<<<< HEAD
+=======
+          "luadoc",
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
           "markdown",
           "markdown_inline",
           "ninja",
@@ -38,7 +45,12 @@ return {
           "tsx",
           "typescript",
           "vim",
+<<<<<<< HEAD
           -- "yaml", This is currently borked see: https://github.com/ikatyang/tree-sitter-yaml/issues/53
+=======
+          "vimdoc",
+          "yaml",
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
         },
         sync_install = false,
         highlight = {
@@ -55,6 +67,7 @@ return {
           enable = true,
         },
         --[[ context_commentstring = {
+<<<<<<< HEAD
 =======
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -112,6 +125,8 @@ return {
 				},
 				--[[ context_commentstring = {
 >>>>>>> 6835d38 (work changes)
+=======
+>>>>>>> 31c40b2b19589ffa18dd8aab8f1b44e15073d65b
 					enable = true,
 					enable_autocmd = false,
 				}, ]]
