@@ -1,6 +1,9 @@
--- Enable relative line numbers
+-- Enable line numbers
 vim.opt.nu = true
-vim.opt.rnu = true
+-- Enable relative line numbers
+vim.opt.rnu = false
+vim.opt.numberwidth = 1
+vim.opt.signcolumn = "yes:1"
 
 -- Set tabs to 2 spaces
 vim.opt.tabstop = 2
@@ -29,9 +32,6 @@ vim.g.maplocalleader = " "
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
--- Enable mouse mode
-vim.opt.mouse = "a"
-
 -- Enable ignorecase + smartcase for better searching
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -47,9 +47,6 @@ vim.opt.undofile = true
 
 -- Enable 24-bit color
 vim.opt.termguicolors = true
-
--- Enable the sign column to prevent the screen from jumping
-vim.opt.signcolumn = "yes"
 
 -- Enable access to System Clipboard
 vim.opt.clipboard = "unnamed,unnamedplus"
@@ -67,12 +64,6 @@ vim.opt.foldenable = true
 
 -- Always keep 8 lines above/below cursor unless at start/end of file
 vim.opt.scrolloff = 8
-
--- Place a column line
-vim.opt.colorcolumn = "120"
-
--- Always show the sign column
-vim.opt.signcolumn = "yes"
 
 -- Set session options for better auto-session experience
 vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"

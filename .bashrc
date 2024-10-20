@@ -159,4 +159,4 @@ unset __conda_setup
 export AWS_PROFILE=developer
 export PATH=$HOME/dev/cryp/bin/:$PATH
 
-eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/stelbent.minimal.omp.json)"
+eval "$(oh-my-posh --init --shell bash --config ~/.poshthemes/pure.omp.json)"
