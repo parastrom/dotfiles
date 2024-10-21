@@ -56,17 +56,6 @@ export VISUAL=nvim
 [ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
 
-function run_local_sirius() {
-    export CONSOLE=1 
-    export CRYPPRO_REGION=region-1 
-    export RUST_BACKTRACE=1 
-    export RUST_LOG=TRACE 
-    export CRYPPRO_MUTE_NOTIFIER=1 
-    export CRYPPRO_SERVICE_MAP=/mnt/storage/configs/rust_service_map.yml 
-    export CARGO_PROFILE_RELEASE_DEBUG=true
-    cargo run -- $@
-}
-
 export AWS_PROFILE=developer
 export CRYPPRO_AWS_PROFILE=developer
 
