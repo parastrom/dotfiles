@@ -75,6 +75,7 @@ return {
 	--     vim.o.background = 'light'
 	--   end
 	-- }
+	-- {
 	{
 		"AlexvZyl/nordic.nvim",
 		lazy = false,
@@ -82,13 +83,17 @@ return {
 		config = function()
 			local nordic = require("nordic")
 			nordic.setup({
-				override = {
-					["@parameter"] = { italic = false },
-					["@variable.builtin"] = { italic = false },
-					["@field"] = { italic = false },
-					["@property"] = { italic = false },
+				on_highlight = function(highlights, _)
+					highlights["@parameter"] = { italic = false }
+					highlights["@variable.builtin"] = { italic = false }
+					highlights["@field"] = { italic = false }
+					highlights["@property"] = { italic = false }
+				end,
+				telescope = {
+					style = "flat",
 				},
 			})
+			vim.o.background = ""
 			nordic.load()
 		end,
 	},

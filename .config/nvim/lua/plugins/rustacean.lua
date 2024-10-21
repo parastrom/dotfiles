@@ -22,13 +22,7 @@ return {
 					vim.keymap.set("n", "<leader>tr", function()
 						vim.cmd.RustLsp("testables")
 					end, { buffer = bufnr, desc = "Rust: Run Testables" })
-
-					vim.lsp.inlay_hint.enable(true)
 				end,
-				capabilities = (function()
-					local capabilities = vim.lsp.protocol.make_client_capabilities()
-					return require("cmp_nvim_lsp").default_capabilities(capabilities)
-				end)(),
 				settings = {
 					["rust-analyzer"] = {
 						cargo = {
@@ -37,12 +31,18 @@ return {
 								enable = true,
 							},
 						},
-						-- Add clippy lints
 						procMacro = {
 							enable = true,
 							ignored = {
 								["napi-derive"] = { "napi" },
 								["async-recursion"] = { "async_recursion" },
+							},
+						},
+						workspace = {
+							symbol = {
+								search = {
+									scope = "workspace",
+								},
 							},
 						},
 						diagnostics = {
@@ -59,6 +59,7 @@ return {
 					auto_focus = true,
 				},
 			},
+			dap = {},
 		},
 		config = function(_, opts)
 			vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})

@@ -7,10 +7,12 @@ return {
 			-- Plugin and UI to automatically install LSPs to stdpath
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"hrsh7th/cmp-nvim-lsp",
 			-- Install neodev for better nvim configuration and plugin authoring via lsp configurations
 			"folke/neodev.nvim",
 			"stevearc/conform.nvim",
+
+			-- Progress/Status update for LSP
+			{ "j-hui/fidget.nvim", tag = "legacy" },
 		},
 		config = function()
 			local conform = require("conform")
@@ -30,8 +32,6 @@ return {
 			require("mason-lspconfig").setup({
 				automatic_installation = { exclude = { "ocamllsp", "gleam" } },
 			})
-
-			-- Override tsserver diagnostics to filter out specific messages
 
 			-- LSP servers to install (see list here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers )
 			local servers = {
@@ -76,7 +76,7 @@ return {
 				tailwindcss = {
 					-- filetypes = { "reason" },
 				},
-				tsserver = {
+				ts_ls = {
 					settings = {
 						experimental = {
 							enableProjectDiagnostics = true,
@@ -96,9 +96,7 @@ return {
 				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
 			}
 
-			-- nvim-cmp supports additional completion capabilities
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
-			local default_capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 			---@diagnostic disable-next-line: unused-local
 			local on_attach = function(_client, buffer_number)
@@ -114,15 +112,15 @@ return {
 			-- Iterate over our servers and set them up
 			for name, config in pairs(servers) do
 				require("lspconfig")[name].setup({
-					capabilities = default_capabilities,
+					capabilities = capabilities,
 					filetypes = config.filetypes,
 					handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
 					on_attach = on_attach,
 					settings = config.settings,
-					vim.lsp.inlay_hint.enable(true),
 				})
 			end
 
+			vim.lsp.inlay_hint.enable(true)
 			-- Congifure LSP linting, formatting, diagnostics, and code actions
 
 			conform.setup({

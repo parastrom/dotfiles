@@ -1,10 +1,8 @@
+-- Enable line numbers
+vim.opt.nu = true
 -- Enable relative line numbers
-vim.opt.nu = false
 vim.opt.rnu = false
-
 vim.opt.numberwidth = 1
-
--- Always show the sign column
 vim.opt.signcolumn = "yes:1"
 
 -- Set tabs to 2 spaces
@@ -49,9 +47,6 @@ vim.opt.undofile = true
 
 -- Enable 24-bit color
 vim.opt.termguicolors = true
-
--- Enable the sign column to prevent the screen from jumping
-vim.opt.signcolumn = "yes"
 
 -- Enable access to System Clipboard
 vim.opt.clipboard = "unnamed,unnamedplus"

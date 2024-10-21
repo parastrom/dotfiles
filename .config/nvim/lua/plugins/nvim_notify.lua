@@ -14,7 +14,11 @@ return {
           on_open = function(win)
             local buf = vim.api.nvim_win_get_buf(win)
             vim.api.nvim_buf_set_option(buf, "filetype", "markdown")
+            local config = vim.api.nvim_win_get_config(win)
+            config.border = "single"
+            vim.api.nvim_win_set_config(win, config)
           end,
+          top_down = false
         }, opts or {})
 
         for _, msg in ipairs(filtered_message) do

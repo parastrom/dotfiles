@@ -13,7 +13,6 @@ return {
 				override = {
 					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
 					["vim.lsp.util.stylize_markdown"] = true,
-					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
 				},
 				presets = {
 					bottom_search = false, -- use a classic bottom cmdline for search
@@ -30,7 +29,7 @@ return {
 			views = {
 				cmdline_popup = {
 					position = {
-						row = "30",
+						row = "40",
 						col = "50%",
 					},
 					size = {
@@ -41,7 +40,7 @@ return {
 				popupmenu = {
 					relative = "editor",
 					position = {
-						row = "56%",
+						row = "52%",
 						col = "50%",
 					},
 					size = {
