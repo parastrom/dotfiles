@@ -1,7 +1,3 @@
-# Enable colors and change prompt:
-autoload -U colors && colors
-PS1="%B%{$fg[red]%}[%{$fg[yellow]%}%n%{$fg[green]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}]%{$reset_color%}$%b "
-
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
@@ -52,6 +48,7 @@ lfcd () {
 bindkey -s '^o' 'lfcd\n'
 
 # Edit line in vim with ctrl-e:
+export VISUAL=nvim
 autoload edit-command-line; zle -N edit-command-line
 bindkey '^e' edit-command-line
 
@@ -62,9 +59,10 @@ bindkey '^e' edit-command-line
 # Alias for tmux with 256-color support
 # alias tmux ="TERM=screen-256color-bce tmux"
 
-eval "$(oh-my-posh init zsh --config ~/.poshthemes/stelbent.minimal.omp.json)"
+eval "$(oh-my-posh init zsh --config ~/.poshthemes/pure.omp.json)"
 source "$HOME/.rye/env"
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+export PATH=$PATH:/usr/local/go/bin

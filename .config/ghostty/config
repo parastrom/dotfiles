@@ -1,0 +1,47 @@
+font-size =  10
+gtk-titlebar = false
+gtk-tabs-location = bottom
+gtk-wide-tabs = false
+
+
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+
+
+keybind = ctrl+plus=increase_font_size:1
+keybind = ctrl+minus=decrease_font_size:1
+
+
+keybind = ctrl+a>c=new_tab
+keybind = ctrl+a>shift+\=new_split:right
+keybind = ctrl+a>-=new_split:down
+keybind = ctrl+a>x=close_surface
+keybind = ctrl+a>p=previous_tab
+keybind = ctrl+a>n=next_tab
+
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+l=goto_split:right
+keybind = ctrl+j=goto_split:top
+keybind = ctrl+k=goto_split:bottom
+
+clipboard-read = allow
+clipboard-write = allow
+clipboard-trim-trailing-spaces = true
+
+
+window-padding-x = 0
+window-padding-y = 0
+window-padding-balance = true
+window-decoration = false
+window-theme = system
+
+font-family = "Berkley Mono"
+
+
+minimum-contrast = 0
+cursor-style = bar
+cursor-style-blink = false
+mouse-hide-while-typing = true
+unfocused-split-opacity = 1
+
+theme = "rose-pine"

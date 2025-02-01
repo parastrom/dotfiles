@@ -1,99 +1,129 @@
 return {
-  -- {
-  --   "rose-pine/neovim",
-  --   config = function()
-  --     require("rose-pine").setup({
-  --       variant = "main",
-  --       dark_variant = "main",
-  --       bold_vert_split = false,
-  --       disable_nc_background = false,
-  --       disable_float_background = false,
-  --       disable_italics = false,
-  --
-  --
-  --       ---@usage string ehx value or named colour from rosepinetheme.com/palette
-  --       groups = {
-  --         background = "base",
-  --         background_nc = "_experimental_nc",
-  --         panel = "surface",
-  --         panel_nc = "base",
-  --         border = "highlight_med",
-  --         comment = "muted",
-  --         link = "iris",
-  --         punctuation = "subtle",
-  --
-  --         error = "love",
-  --         hint = "iris",
-  --         info = "foam",
-  --         warn = "gold",
-  --
-  --         headings = "subtle",
-  --       },
-  --
-  --       highlight_groups = {
-  --         ColorColumn = { bg = "rose" },
-  --
-  --         CursorLine = { bg = "foam", blend = 10 },
-  --         StatusLine = { fg = "love", bg = "love", blend = 10 },
-  --
-  --         Search = { bg = "gold" }
-  --       }
-  --     })
-  --
-  --     vim.cmd("colorscheme rose-pine")
-  --   end,
-  -- }
-  -- {
-  --   "Yazeed1s/oh-lucy.nvim",
-  --   config = function()
-  --     vim.cmd("colorscheme oh-lucy")
-  --   end
-  -- }
-  -- {
-  --   "rebelot/kanagawa.nvim",
-  --   config = function()
-  --     require("kanagawa").load("wave")
-  --   end
-  -- }
-  -- {
-  --   'sainnhe/everforest',
-  --   lazy = false,
-  --   priority = 1000,
-  --   config = function()
-  --     -- Optionally configure and load the colorscheme
-  --     -- directly inside the plugin declaration.
-  --     vim.o.background = 'dark'
-  --     vim.g.everforest_enable_italic = false
-  --     vim.cmd.colorscheme('everforest')
-  --   end
-  -- }
-  -- {
-  --   "ramojus/mellifluous.nvim",
-  --   config = function()
-  --     require("mellifluous").setup({}) -- optional, see configuration section.
-  --     vim.cmd("colorscheme mellifluous")
-  --     vim.o.background = 'light'
-  --   end
-  -- }
-  {
-    'AlexvZyl/nordic.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      local nordic = require("nordic")
-      nordic.setup({
-        on_highlight = function(highlights, _)
-          highlights["@parameter"] = { italic = false }
-          highlights["@variable.builtin"] = { italic = false }
-          highlights["@field"] = { italic = false }
-          highlights["@property"] = { italic = false }
-        end,
-        telescope = {
-          style = 'flat'
-        },
-      })
-      vim.o.background = ''
-      nordic.load()
-    end
-  },
+	-- {
+	--   "rose-pine/neovim",
+	--   config = function()
+	--     require("rose-pine").setup({
+	--       variant = "main",
+	--       dark_variant = "main",
+	--       bold_vert_split = false,
+	--       disable_nc_background = false,
+	--       disable_float_background = false,
+	--       disable_italics = false,
+	--
+	--
+	--       ---@usage string ehx value or named colour from rosepinetheme.com/palette
+	--       groups = {
+	--         background = "base",
+	--         background_nc = "_experimental_nc",
+	--         panel = "surface",
+	--         panel_nc = "base",
+	--         border = "highlight_med",
+	--         comment = "muted",
+	--         link = "iris",
+	--         punctuation = "subtle",
+	--
+	--         error = "love",
+	--         hint = "iris",
+	--         info = "foam",
+	--         warn = "gold",
+	--
+	--         headings = "subtle",
+	--       },
+	--
+	--       highlight_groups = {
+	--         ColorColumn = { bg = "rose" },
+	--
+	--         CursorLine = { bg = "foam", blend = 10 },
+	--         StatusLine = { fg = "love", bg = "love", blend = 10 },
+	--
+	--         Search = { bg = "gold" }
+	--       }
+	--     })
+	--
+	--     vim.cmd("colorscheme rose-pine")
+	--   end,
+	-- }
+	-- {
+	--   "Yazeed1s/oh-lucy.nvim",
+	--   config = function()
+	--     vim.cmd("colorscheme oh-lucy")
+	--   end
+	-- }
+	-- {
+	--   "rebelot/kanagawa.nvim",
+	--   config = function()
+	--     require("kanagawa").load("wave")
+	--   end
+	-- }
+	-- {
+	--   'sainnhe/everforest',
+	--   lazy = false,
+	--   priority = 1000,
+	--   config = function()
+	--     -- Optionally configure and load the colorscheme
+	--     -- directly inside the plugin declaration.
+	--     vim.o.background = 'dark'
+	--     vim.g.everforest_enable_italic = false
+	--     vim.cmd.colorscheme('everforest')
+	--   end
+	-- }
+	-- {
+	--   "ramojus/mellifluous.nvim",
+	--   config = function()
+	--     require("mellifluous").setup({}) -- optional, see configuration section.
+	--     vim.cmd("colorscheme mellifluous")
+	--     vim.o.background = 'light'
+	--   end
+	-- }
+	{
+		"AlexvZyl/nordic.nvim",
+		lazy = false,
+		priority = 1000,
+		opts = function()
+			return {
+				-- This callback can be used to override the colors used in the base palette.
+				on_palette = function(palette) end,
+				-- This callback can be used to override the colors used in the extended palette.
+				after_palette = function(palette) end,
+				-- This callback can be used to override highlights before they are applied.
+				on_highlight = function(highlights, _)
+					highlights["@parameter"] = { italic = false }
+					highlights["@variable.builtin"] = { italic = false }
+					highlights["@field"] = { italic = false }
+					highlights["@property"] = { italic = false }
+				end,
+				-- Enable bold keywords.
+				bold_keywords = false,
+				-- Enable italic comments.
+				italic_comments = true,
+				-- Enable editor background transparency.
+				transparent = {
+					-- Enable transparent background.
+					bg = false,
+					-- Enable transparent background for floating windows.
+					float = false,
+				},
+				bright_border = false,
+				swap_backgrounds = false,
+				reduced_blue = true,
+				telescope = {
+					style = "flat",
+				},
+				noice = {
+					-- Available styles: `classic`, `flat`.
+					style = "flat",
+				},
+				ts_context = {
+					-- Enables dark background for treesitter-context window
+					dark_background = true,
+				},
+			}
+		end,
+		config = function(_, opts)
+			local nordic = require("nordic")
+			nordic.setup(opts)
+			require("nordic.colors")
+			nordic.load(opts)
+		end,
+	},
 }

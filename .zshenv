@@ -26,3 +26,4 @@ export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 export PATH="$PATH:$HOME/.foundry/bin"
 export PATH="$HOME/.avm/bin:$PATH"
 export PATH=$HOME/dev/cryp/bin/:$PATH
+export PATH="$HOME/bin:$PATH"
