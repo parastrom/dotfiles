@@ -50,6 +50,7 @@ return {
 							experimental = {
 								enable = true,
 							},
+							refreshSupport = false,
 						},
 					},
 				},
@@ -59,7 +60,6 @@ return {
 					auto_focus = true,
 				},
 			},
-			dap = {},
 		},
 		config = function(_, opts)
 			vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})

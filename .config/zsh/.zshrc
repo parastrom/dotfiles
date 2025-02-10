@@ -58,6 +58,7 @@ export VISUAL=nvim
 
 export AWS_PROFILE=developer
 export CRYPPRO_AWS_PROFILE=developer
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/pure.omp.json)"
 

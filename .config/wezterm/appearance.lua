@@ -12,6 +12,12 @@ function M.apply_to_config(config)
 		bottom = 0,
 	}
 	config.color_scheme = "tokyonight_night"
+
+	config.tab_bar_at_bottom = true
+	config.use_fancy_tab_bar = false -- Changed to false for more control
+	config.window_frame = {
+		font_size = 9.0,
+	}
 end
 
 return M
