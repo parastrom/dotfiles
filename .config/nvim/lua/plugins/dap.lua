@@ -50,20 +50,33 @@ return {
 				},
 			}
 
-			dap.configurations.cpp = {
+			dap.configurations.rust = {
 				{
-					name = "Launch file",
+					name = "Debug with codelldb",
 					type = "codelldb",
 					request = "launch",
 					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+						return nil -- Let Rustaceanvim handle this
 					end,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = true,
+					cwd = function()
+						local current_file = vim.fn.expand("%:p")
+						local cargo_toml_dir = vim.fn.finddir("Cargo.toml", current_file .. ";")
+						if cargo_toml_dir == "" then
+							vim.notify("Failed to locate Cargo.toml. Using the current directory.", vim.log.levels.WARN)
+							return vim.fn.getcwd()
+						end
+						return vim.fn.fnamemodify(cargo_toml_dir, ":h")
+					end,
+					stopOnEntry = false,
+					env = {
+						RUST_BACKTRACE = "1",
+					},
 				},
 			}
-			dap.configurations.c = dap.configurations.cpp
-			dap.configurations.rust = dap.configurations.cpp
+
+			if not codelldb_exists then
+				vim.notify("codelldb not found. Please install it using :MasonInstall codelldb", vim.log.levels.WARN)
+			end
 		end,
 	},
 }

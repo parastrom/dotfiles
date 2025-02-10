@@ -9,8 +9,11 @@ return {
 		event = "InsertEnter",
 		version = "v0.*",
 		opts = {
-			nerd_font_variant = "normal",
-			accept = { auto_brackets = { enabled = true } },
+			completion = {
+				accept = { auto_brackets = { enabled = true } },
+				trigger = { show_on_insert_on_trigger_character = false },
+			},
+			signature = { enabled = true },
 			keymap = {
 				["<CR>"] = { "accept", "fallback" },
 				["<C-j>"] = { "select_next" },
