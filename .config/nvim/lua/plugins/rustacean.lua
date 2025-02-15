@@ -63,11 +63,6 @@ return {
 		},
 		config = function(_, opts)
 			vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
-			vim.diagnostic.config({
-				float = {
-					border = "rounded",
-				},
-			})
 		end,
 	},
 }

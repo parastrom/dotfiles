@@ -1,24 +1,100 @@
+local function define_colors()
+	vim.api.nvim_set_hl(0, "DapBreakpoint", { ctermbg = 0, fg = "#b91c1c" })
+	vim.api.nvim_set_hl(0, "DapLogPoint", { ctermbg = 0, fg = "#61afef" })
+	vim.api.nvim_set_hl(0, "DapStopped", { ctermbg = 0, fg = "#98c379", bold = true })
+
+	vim.fn.sign_define("DapBreakpoint", {
+		text = "🔴",
+		numhl = "DapBreakpoint",
+	})
+	vim.fn.sign_define("DapBreakpointCondition", {
+		text = "🔴",
+		linehl = "DapBreakpoint",
+		numhl = "DapBreakpoint",
+	})
+	vim.fn.sign_define("DapBreakpointRejected", {
+		text = "🔘",
+		linehl = "DapBreakpoint",
+		numhl = "DapBreakpoint",
+	})
+	vim.fn.sign_define("DapStopped", {
+		text = "🟢",
+		linehl = "DapStopped",
+		numhl = "DapStopped",
+	})
+	vim.fn.sign_define("DapLogPoint", {
+		text = "🟣",
+		linehl = "DapLogPoint",
+		numhl = "DapLogPoint",
+	})
+end
+
+local function setup_default_configurations()
+	local dap = require("dap")
+	local lldb_configuration = {
+		{
+			name = "Launch",
+			type = "codelldb",
+			request = "launch",
+			program = function()
+				return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+			end,
+			cwd = "${workspaceFolder}",
+			stopOnEntry = false,
+			args = {},
+		},
+	}
+
+	dap.configurations.c = lldb_configuration
+	dap.configurations.cpp = lldb_configuration
+	dap.configurations.rust = lldb_configuration
+	dap.configurations.asm = lldb_configuration
+end
+
 return {
 	{
 		"mfussenegger/nvim-dap",
 		dependencies = {
-			"rcarriga/nvim-dap-ui",
-			"theHamsta/nvim-dap-virtual-text",
+			{
+				"rcarriga/nvim-dap-ui",
+				types = true,
+			},
 			"nvim-neotest/nvim-nio",
+			{
+				"theHamsta/nvim-dap-virtual-text",
+				opts = {
+					enabled = true,
+				},
+			},
+			{
+				"nvim-telescope/telescope-dap.nvim",
+				config = function()
+					require("telescope").load_extension("dap")
+				end,
+			},
 			"williamboman/mason.nvim",
+			"folke/edgy.nvim",
 		},
 		config = function()
 			require("dapui").setup()
 			local dap = require("dap")
 			local dapui = require("dapui")
+			dapui.setup()
+
+			dap.listeners.after.event_initialized["dapui_config"] = function()
+				dapui.open()
+				require("edgy").close()
+			end
+			dap.listeners.before.event_terminated["dapui_config"] = function()
+				dapui.close()
+			end
+			dap.listeners.before.event_exited["dapui_config"] = function()
+				dapui.close()
+			end
+
+			define_colors()
+
 			-- Define sign icons for breakpoints
-			vim.fn.sign_define("DapBreakpoint", { text = "●", texthl = "DapBreakpoint", linehl = "", numhl = "" })
-			vim.fn.sign_define(
-				"DapBreakpointCondition",
-				{ text = "◆", texthl = "DapBreakpointCondition", linehl = "", numhl = "" }
-			)
-			vim.fn.sign_define("DapLogPoint", { text = "◆", texthl = "DapLogPoint", linehl = "", numhl = "" })
-			vim.fn.sign_define("DapStopped", { text = "▶", texthl = "DapStopped", linehl = "DapStopped", numhl = "" })
 			vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
 			vim.keymap.set("n", "<leader>gb", dap.run_to_cursor)
 			vim.keymap.set("n", "<leader>?", function()
@@ -29,57 +105,38 @@ return {
 			vim.keymap.set("n", "<F3>", dap.step_over)
 			vim.keymap.set("n", "<F4>", dap.step_out)
 			vim.keymap.set("n", "<F5>", dap.step_back)
-			vim.keymap.set("n", "<F10>", dap.restart)
-			dap.listeners.after.event_initialized["dapui_config"] = function()
-				dapui.open()
-			end
+			vim.keymap.set("n", "<F9>", dap.restart)
+			vim.keymap.set("n", "<F9>", dap.terminate)
 
-			-- dap.listeners.before.event_terminated["dapui_config"] = function()
-			--   dapui.close()
-			-- end
-			-- dap.listeners.before.event_exited["dapui_config"] = function()
-			--   dapui.close()
-			-- end
-
-			local codelldb_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/codelldb"
+			local codelldb_path = vim.fn.stdpath("data") .. "/mason/bin/codelldb"
 			local codelldb_exists = vim.fn.filereadable(codelldb_path) == 1
 
-			dap.adapters.codelldb = {
-				type = "server",
+			dap.adapters.lldb = {
+				type = "executable",
 				port = "${port}",
-				executable = codelldb_exists and {
+				executable = {
 					command = codelldb_path,
 					args = { "--port", "${port}" },
-				} or nil,
-			}
-
-			dap.configurations.rust = {
-				{
-					name = "Debug with codelldb",
-					type = "codelldb",
-					request = "launch",
-					program = function()
-						return nil -- Let Rustaceanvim handle this
-					end,
-					cwd = function()
-						local current_file = vim.fn.expand("%:p")
-						local cargo_toml_dir = vim.fn.finddir("Cargo.toml", current_file .. ";")
-						if cargo_toml_dir == "" then
-							vim.notify("Failed to locate Cargo.toml. Using the current directory.", vim.log.levels.WARN)
-							return vim.fn.getcwd()
-						end
-						return vim.fn.fnamemodify(cargo_toml_dir, ":h")
-					end,
-					stopOnEntry = false,
-					env = {
-						RUST_BACKTRACE = "1",
-					},
 				},
 			}
 
 			if not codelldb_exists then
 				vim.notify("codelldb not found. Please install it using :MasonInstall codelldb", vim.log.levels.WARN)
 			end
+
+			vim.keymap.set("n", "<F6>", function()
+				setup_default_configurations()
+				-- when debug is called firstly try to read and/or update launch.json configuration
+				-- from the local project which will override all the default configurations
+				if vim.fn.filereadable(".vscode/launch.json") then
+					require("dap.ext.vscode").load_launchjs(nil, { lldb = { "rust", "c", "cpp" } })
+				else
+					-- If not possible stick to the default prebuilt configurations
+					setup_default_configurations()
+				end
+
+				require("dap").continue()
+			end)
 		end,
 	},
 }

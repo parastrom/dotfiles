@@ -15,9 +15,6 @@ return {
 		config = function()
 			---@diagnostic disable-next-line: missing-fields
 			require("neotest").setup({
-				adapters = {
-					["rustaceanvim.neotest"] = {},
-				},
 				output_panel = {
 					enabled = true,
 					open = "botright vsplit | vertical resize 80",
