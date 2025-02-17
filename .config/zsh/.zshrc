@@ -56,13 +56,11 @@ bindkey '^e' edit-command-line
 [ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
 
-# Alias for tmux with 256-color support
-# alias tmux ="TERM=screen-256color-bce tmux"
+export AWS_PROFILE=developer
+export CRYPPRO_AWS_PROFILE=developer
+export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
-eval "$(oh-my-posh init zsh --config ~/.poshthemes/pure.omp.json)"
-source "$HOME/.rye/env"
+eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/pure.omp.json)"
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-export PATH=$PATH:/usr/local/go/bin

@@ -27,16 +27,47 @@ return {
 
 			telescope.setup({
 				defaults = {
-					layout_strategy = "horizontal",
+					layout_strategy = "flex", -- Changed to flex for better responsiveness
 					layout_config = {
 						horizontal = {
 							prompt_position = "top",
-							preview_width = 0.5,
-							results_width = 0.5,
+							preview_width = function(_, cols, _)
+								if cols < 120 then
+									return math.floor(cols * 0.4)
+								else
+									return math.floor(cols * 0.5)
+								end
+							end,
+							width = function(_, cols, _)
+								if cols < 120 then
+									return math.floor(cols * 0.9)
+								else
+									return math.floor(cols * 0.75)
+								end
+							end,
 						},
-						width = 0.75,
-						height = 0.6,
-						preview_cutoff = 120,
+						vertical = {
+							mirror = true,
+							preview_height = 0.4,
+						},
+						flex = {
+							flip_columns = 120, -- Switch to vertical layout if window is narrower than this
+						},
+						width = function(_, cols, _)
+							if cols < 120 then
+								return math.floor(cols * 0.9)
+							else
+								return math.floor(cols * 0.75)
+							end
+						end,
+						height = function(_, _, lines)
+							if lines < 40 then
+								return math.floor(lines * 0.8)
+							else
+								return math.floor(lines * 0.6)
+							end
+						end,
+						preview_cutoff = 80, -- Reduced cutoff for smaller screens
 					},
 					borderchars = {
 						prompt = border_chars_telescope_prompt_thin,
@@ -81,6 +112,7 @@ return {
 							width = 0.5,
 						},
 						sort_mru = true,
+						preview_title = "",
 						ignore_current_buffer = true,
 					},
 					find_files = {

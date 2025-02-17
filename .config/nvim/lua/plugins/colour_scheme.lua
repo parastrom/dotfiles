@@ -10,12 +10,6 @@ return {
 				-- This callback can be used to override the colors used in the extended palette.
 				after_palette = function(palette) end,
 				-- This callback can be used to override highlights before they are applied.
-				on_highlight = function(highlights, _)
-					highlights["@parameter"] = { italic = false }
-					highlights["@variable.builtin"] = { italic = false }
-					highlights["@field"] = { italic = false }
-					highlights["@property"] = { italic = false }
-				end,
 				-- Enable bold keywords.
 				bold_keywords = false,
 				-- Enable italic comments.

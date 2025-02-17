@@ -76,7 +76,7 @@ return {
 			"folke/edgy.nvim",
 		},
 		config = function()
-			require("dapui").setup()
+			require("dapui").setup(opts)
 			local dap = require("dap")
 			local dapui = require("dapui")
 			dapui.setup()
@@ -94,7 +94,6 @@ return {
 
 			define_colors()
 
-			-- Define sign icons for breakpoints
 			vim.keymap.set("n", "<leader>b", dap.toggle_breakpoint)
 			vim.keymap.set("n", "<leader>gb", dap.run_to_cursor)
 			vim.keymap.set("n", "<leader>?", function()
@@ -106,7 +105,7 @@ return {
 			vim.keymap.set("n", "<F4>", dap.step_out)
 			vim.keymap.set("n", "<F5>", dap.step_back)
 			vim.keymap.set("n", "<F9>", dap.restart)
-			vim.keymap.set("n", "<F9>", dap.terminate)
+			vim.keymap.set("n", "<F10>", dap.terminate)
 
 			local codelldb_path = vim.fn.stdpath("data") .. "/mason/bin/codelldb"
 			local codelldb_exists = vim.fn.filereadable(codelldb_path) == 1
