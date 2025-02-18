@@ -9,6 +9,7 @@ return {
 				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 				cond = vim.fn.executable("cmake") == 1,
 			},
+			"nvim-telescope/telescope-ui-select.nvim",
 			{
 				"nvim-telescope/telescope-live-grep-args.nvim",
 				-- This will not install any breaking changes.
@@ -105,6 +106,12 @@ return {
 				pickers = {
 					buffers = {
 						preview = false,
+						wrap_results = false,
+						layout_config = {
+							height = 0.4,
+							width = 0.5,
+						},
+						sort_mru = true,
 						preview_title = "",
 						ignore_current_buffer = true,
 					},
@@ -120,6 +127,8 @@ return {
 			-- Enable telescope fzf native, if installed
 			require("telescope").load_extension("live_grep_args")
 			require("telescope").load_extension("notify")
+			pcall(require("telescope").load_extension, "projects")
+			pcall(require("telescope").load_extension, "ui-select")
 			pcall(require("telescope").load_extension, "fzf")
 
 			-- Add line numbers to preview
