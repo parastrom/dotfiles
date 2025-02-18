@@ -29,7 +29,7 @@ return {
 			views = {
 				cmdline_popup = {
 					position = {
-						row = "40",
+						row = "43%",
 						col = "50%",
 					},
 					size = {
@@ -40,7 +40,7 @@ return {
 				popupmenu = {
 					relative = "editor",
 					position = {
-						row = "52%",
+						row = "55%",
 						col = "50%",
 					},
 					size = {

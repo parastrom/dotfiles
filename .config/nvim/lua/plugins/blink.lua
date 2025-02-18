@@ -19,7 +19,6 @@ return {
 				["<C-j>"] = { "select_next" },
 				["<C-k>"] = { "select_prev" },
 			},
-			trigger = { signature_help = { enabled = false, show_on_insert_on_trigger_character = false } },
 		},
 		config = function(_, opts)
 			require("blink.cmp").setup(opts)
