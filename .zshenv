@@ -44,3 +44,5 @@ add_to_path "$HOME/bat-extras/bin"
 
 # Export the updated PATH
 export PATH
+
+. "$HOME/.local/bin/env"

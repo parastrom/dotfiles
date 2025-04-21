@@ -47,6 +47,16 @@ lfcd () {
 }
 bindkey -s '^o' 'lfcd\n'
 
+# Key binding for fzf history search
+fzf-history-widget() {
+  local selected
+  selected=$(history | fzf | sed 's/ *[0-9]* *//')
+  BUFFER=$selected
+  zle end-of-line
+}
+zle -N fzf-history-widget
+bindkey '^r' fzf-history-widget
+
 # Edit line in vim with ctrl-e:
 export VISUAL=nvim
 autoload edit-command-line; zle -N edit-command-line

@@ -19,10 +19,10 @@ keybind = ctrl+a>x=close_surface
 keybind = ctrl+a>p=previous_tab
 keybind = ctrl+a>n=next_tab
 
-keybind = ctrl+h=goto_split:left
-keybind = ctrl+l=goto_split:right
-keybind = ctrl+j=goto_split:top
-keybind = ctrl+k=goto_split:bottom
+keybind = unconsumed:ctrl+h=goto_split:left
+keybind = unconsumed:ctrl+l=goto_split:right
+keybind = unconsumed:ctrl+k=goto_split:top
+keybind = unconsumed:ctrl+j=goto_split:bottom
 
 clipboard-read = allow
 clipboard-write = allow
