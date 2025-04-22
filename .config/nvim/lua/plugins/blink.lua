@@ -4,7 +4,6 @@ return {
 		lazy = false, -- lazy loading handled internally
 		dependencies = {
 			"rafamadriz/friendly-snippets",
-			"windwp/nvim-autopairs",
 		},
 		event = "InsertEnter",
 		version = "v0.*",
