@@ -3,7 +3,7 @@ local M = {}
 
 function M.apply_to_config(config)
 	config.window_decorations = "NONE"
-	config.font = wezterm.font("Berkeley Mono")
+	config.font = wezterm.font("JetBrainsMono Nerd Font")
 	config.font_size = 9.0
 	config.window_padding = {
 		left = 0,

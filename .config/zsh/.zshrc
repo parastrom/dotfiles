@@ -2,6 +2,10 @@
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
+setopt EXTENDED_HISTORY          # write the history file in the ":start:elapsed;command" format.
+setopt HIST_REDUCE_BLANKS        # remove superfluous blanks before recording entry.
+setopt SHARE_HISTORY             # share history between all sessions.
+setopt HIST_IGNORE_ALL_DUPS      # delete old recorded entry if new entry is a duplicate.
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -45,7 +49,19 @@ lfcd () {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
+
 bindkey -s '^o' 'lfcd\n'
+
+# Key binding for fzf history search
+fzf-history-widget() {
+  local selected
+  selected=$(history | fzf | sed 's/ *[0-9]* *//')
+  BUFFER=$selected
+  zle end-of-line
+}
+zle -N fzf-history-widget
+
+bindkey '^r' fzf-history-widget
 
 # Edit line in vim with ctrl-e:
 export VISUAL=nvim
@@ -59,6 +75,11 @@ bindkey '^e' edit-command-line
 export AWS_PROFILE=developer
 export CRYPPRO_AWS_PROFILE=developer
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
+# https://stackoverflow.com/questions/20357441/zsh-on-10-9-widgets-can-only-be-called-when-zle-is-active
+TRAPWINCH() {
+  zle && { zle reset-prompt; zle -R }
+}
 
 eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/pure.omp.json)"
 
