@@ -41,6 +41,11 @@ add_to_path "/opt/nvim"
 add_to_path "/usr/local/go/bin"
 add_to_path "$HOME/dev/cryp/bin"
 add_to_path "$HOME/bat-extras/bin"
+add_to_path "$HOME/.local/bin"
+add_to_path "$HOME/.local/share/solana/install/active_release/bin"
+
+
+JAVA_HOME="/usr/lib/jvm/java-1.21.0-openjdk-amd64"
 
 # Export the updated PATH
 export PATH

@@ -29,9 +29,6 @@ return {
 			})
 
 			-- Configure mason to auto install servers
-			require("mason-lspconfig").setup({
-				automatic_installation = { exclude = { "ocamllsp", "gleam" } },
-			})
 
 			-- LSP servers to install (see list here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers )
 			local servers = {

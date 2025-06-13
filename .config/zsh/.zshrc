@@ -1,11 +1,15 @@
 # History in cache directory:
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=50000
+SAVEHIST=50000
 HISTFILE=~/.cache/zsh/history
 setopt EXTENDED_HISTORY          # write the history file in the ":start:elapsed;command" format.
 setopt HIST_REDUCE_BLANKS        # remove superfluous blanks before recording entry.
 setopt SHARE_HISTORY             # share history between all sessions.
 setopt HIST_IGNORE_ALL_DUPS      # delete old recorded entry if new entry is a duplicate.
+# append to $HISTFILE instead of rewriting it each session
+setopt APPEND_HISTORY
+# write each command to $HISTFILE as you enter it
+setopt INC_APPEND_HISTORY
 
 # Basic auto/tab complete:
 autoload -U compinit
@@ -55,7 +59,8 @@ bindkey -s '^o' 'lfcd\n'
 # Key binding for fzf history search
 fzf-history-widget() {
   local selected
-  selected=$(history | fzf | sed 's/ *[0-9]* *//')
+  # -l: list, -n: no line numbers, -r: reverse (newest first), 1: start at event 1
+  selected=$(fc -lnr 1 | fzf | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//')
   BUFFER=$selected
   zle end-of-line
 }
@@ -74,12 +79,16 @@ bindkey '^e' edit-command-line
 
 export AWS_PROFILE=developer
 export CRYPPRO_AWS_PROFILE=developer
+export CRYPPRO_REGION=legacy
 export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 # https://stackoverflow.com/questions/20357441/zsh-on-10-9-widgets-can-only-be-called-when-zle-is-active
 TRAPWINCH() {
   zle && { zle reset-prompt; zle -R }
 }
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/pure.omp.json)"
 
