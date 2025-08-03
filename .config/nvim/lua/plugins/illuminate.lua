@@ -10,7 +10,6 @@ return {
 					"Outline",
 					"TelescopePrompt",
 					"alpha",
-					"harpoon",
 					"toggleterm",
 					"neo-tree",
 					"Spectre",

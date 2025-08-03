@@ -91,6 +91,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/pure.omp.json)"
+eval "$(~/.local/bin/mise activate zsh)"
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

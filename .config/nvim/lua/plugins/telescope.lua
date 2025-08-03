@@ -4,11 +4,6 @@ return {
 		branch = "0.1.x",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			{
-				"nvim-telescope/telescope-fzf-native.nvim",
-				build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-				cond = vim.fn.executable("cmake") == 1,
-			},
 			"nvim-telescope/telescope-ui-select.nvim",
 			{
 				"nvim-telescope/telescope-live-grep-args.nvim",
@@ -129,7 +124,6 @@ return {
 			require("telescope").load_extension("notify")
 			pcall(require("telescope").load_extension, "projects")
 			pcall(require("telescope").load_extension, "ui-select")
-			pcall(require("telescope").load_extension, "fzf")
 
 			-- Add line numbers to preview
 			vim.api.nvim_create_autocmd("User", {

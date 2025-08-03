@@ -6,7 +6,7 @@ return {
 			"rafamadriz/friendly-snippets",
 		},
 		event = "InsertEnter",
-		version = "v0.*",
+		version = "v1.*",
 		opts = {
 			completion = {
 				accept = { auto_brackets = { enabled = true } },

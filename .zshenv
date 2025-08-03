@@ -15,11 +15,6 @@ else
 fi
 unset __conda_setup
 
-# NVM setup
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && source "$NVM_DIR/bash_completion"
-
 # Define add_to_path function
 add_to_path() {
     if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
@@ -43,6 +38,7 @@ add_to_path "$HOME/dev/cryp/bin"
 add_to_path "$HOME/bat-extras/bin"
 add_to_path "$HOME/.local/bin"
 add_to_path "$HOME/.local/share/solana/install/active_release/bin"
+add_to_path "usr/bin/pg_config"
 
 
 JAVA_HOME="/usr/lib/jvm/java-1.21.0-openjdk-amd64"

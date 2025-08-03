@@ -85,12 +85,12 @@ return {
 				dapui.open()
 				require("edgy").close()
 			end
-			dap.listeners.before.event_terminated["dapui_config"] = function()
-				dapui.close()
-			end
-			dap.listeners.before.event_exited["dapui_config"] = function()
-				dapui.close()
-			end
+			-- dap.listeners.before.event_terminated["dapui_config"] = function()
+			-- 	dapui.close()
+			-- end
+			-- dap.listeners.before.event_exited["dapui_config"] = function()
+			-- 	dapui.close()
+			-- end
 
 			define_colors()
 
@@ -107,7 +107,7 @@ return {
 			vim.keymap.set("n", "<F9>", dap.restart)
 			vim.keymap.set("n", "<F10>", dap.terminate)
 
-			local codelldb_path = vim.fn.stdpath("data") .. "/mason/bin/codelldb"
+			local codelldb_path = "/usr/local/bin/codelldb"
 			local codelldb_exists = vim.fn.filereadable(codelldb_path) == 1
 
 			dap.adapters.lldb = {

@@ -49,7 +49,7 @@ vim.opt.undofile = true
 vim.opt.termguicolors = true
 
 -- Enable access to System Clipboard
-vim.opt.clipboard = "unnamed,unnamedplus"
+vim.opt.clipboard = "unnamedplus"
 
 -- Enable cursor line highlight
 vim.opt.cursorline = true
