@@ -10,6 +10,8 @@ session_serialization false
 disable_session_metadata true
 simplified_ui true
 default_layout "compact"
+session_serialization true
+default_session "main"
 
 
 plugins {

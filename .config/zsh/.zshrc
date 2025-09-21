@@ -77,6 +77,11 @@ bindkey '^e' edit-command-line
 [ -f "$HOME/.config/shortcutrc" ] && source "$HOME/.config/shortcutrc"
 [ -f "$HOME/.config/aliasrc" ] && source "$HOME/.config/aliasrc"
 
+
+if command -v zellij >/dev/null 2>&1 && [ -z "$ZELLIJ" ]; then
+  exec zellij attach --create main
+fi
+
 export AWS_PROFILE=developer
 export CRYPPRO_AWS_PROFILE=developer
 export CRYPPRO_REGION=legacy
