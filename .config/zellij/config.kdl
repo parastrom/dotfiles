@@ -9,6 +9,8 @@ on_force_close "detach"
 session_serialization false
 disable_session_metadata true
 simplified_ui true
+default_layout "compact"
+
 
 plugins {
   zjstatus location="file:~/.config/zellij/plugins/zjstatus.wasm" {
