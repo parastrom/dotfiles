@@ -4,39 +4,55 @@ return {
 		event = { "BufReadPost" },
 		cmd = { "LspInfo", "LspInstall", "LspUninstall", "Mason" },
 		dependencies = {
-			-- Plugin and UI to automatically install LSPs to stdpath
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			-- Install neodev for better nvim configuration and plugin authoring via lsp configurations
 			"folke/neodev.nvim",
 			"stevearc/conform.nvim",
-
-			-- Progress/Status update for LSP
 			{ "j-hui/fidget.nvim", tag = "legacy" },
 		},
 		config = function()
 			local conform = require("conform")
-			local map_lsp_keybinds = require("user.keymaps").map_lsp_keybinds -- Has to load keymaps before pluginslsp
+			local map_lsp_keybinds = require("user.keymaps").map_lsp_keybinds
 
-			-- Use neodev to configure lua_ls in nvim directories - must load before lspconfig
 			require("neodev").setup()
 
-			-- Setup mason so it can manage 3rd party LSP servers
-			require("mason").setup({
-				ui = {
-					border = "rounded",
+			require("mason").setup({ ui = { border = "rounded" } })
+			require("mason-lspconfig").setup({
+				ensure_installed = {
+					"bashls",
+					"cssls",
+					"clangd",
+					"gleam",
+					"graphql",
+					"html",
+					"jsonls",
+					"lua_ls",
+					"marksman",
+					"ocamllsp",
+					"prismals",
+					"pyright",
+					"ruff",
+					"solidity",
+					"sqlls",
+					"tailwindcss",
+					"ts_ls",
+					"yamlls",
+					"zls",
 				},
+				automatic_installation = true,
 			})
 
-			-- Configure mason to auto install servers
+			local default_handlers = {
+				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
+				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
+			}
+			local capabilities = vim.lsp.protocol.make_client_capabilities()
 
-			-- LSP servers to install (see list here: https://github.com/williamboman/mason-lspconfig.nvim#available-lsp-servers )
+			-- server-specific diffs only
 			local servers = {
 				bashls = {},
 				cssls = {},
-				clangd = {
-					cmd = { "--offset-encoding=utf-32" },
-				},
+				clangd = { cmd = { "clangd", "--offset-encoding=utf-32" } },
 				gleam = {},
 				graphql = {},
 				html = {},
@@ -54,73 +70,53 @@ return {
 				prismals = {},
 				pyright = {
 					settings = {
-						-- pyright settings
-						pyright = {
-							disableOrganizeImports = true, -- Using Ruff
-						},
-						python = {
-							analysis = {
-								ignore = { "*" }, -- Using Ruff
-								typeCheckingMode = "standard",
-							},
-						},
+						pyright = { disableOrganizeImports = true },
+						python = { analysis = { ignore = { "*" }, typeCheckingMode = "standard" } },
 					},
 				},
 				ruff = {},
-				-- rust_analyzer = {},
 				solidity = {},
 				sqlls = {},
-				tailwindcss = {
-					-- filetypes = { "reason" },
-				},
+				tailwindcss = {},
 				ts_ls = {
-					settings = {
-						experimental = {
-							enableProjectDiagnostics = true,
-						},
-					},
-					handlers = {
-						["textDocument/publishDiagnostics"] = {},
-					},
+					settings = { experimental = { enableProjectDiagnostics = true } },
+					handlers = { ["textDocument/publishDiagnostics"] = {} },
 				},
 				yamlls = {},
 				zls = {},
 			}
 
-			-- Default handlers for LSP
-			local default_handlers = {
-				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-			}
-
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-			---@diagnostic disable-next-line: unused-local
-			local on_attach = function(_client, buffer_number)
-				-- Pass the current buffer to map lsp keybinds
-				map_lsp_keybinds(buffer_number)
-
-				-- Create a command `:Format` local to the LSP buffer
-				vim.api.nvim_buf_create_user_command(buffer_number, "Format", function(_)
-					require("conform").format({ bufnr = buffer_number })
-				end, { desc = "Format current buffer with LSP" })
-			end
-
-			-- Iterate over our servers and set them up
-			for name, config in pairs(servers) do
-				require("lspconfig")[name].setup({
+			-- new API: register configs
+			for name, cfg in pairs(servers) do
+				vim.lsp.config(name, {
 					capabilities = capabilities,
-					filetypes = config.filetypes,
-					handlers = vim.tbl_deep_extend("force", {}, default_handlers, config.handlers or {}),
-					on_attach = on_attach,
-					settings = config.settings,
+					filetypes = cfg.filetypes,
+					handlers = vim.tbl_deep_extend("force", {}, default_handlers, cfg.handlers or {}),
+					settings = cfg.settings,
+					cmd = cfg.cmd,
 				})
 			end
 
-			vim.lsp.inlay_hint.enable(true)
-			-- Congifure LSP linting, formatting, diagnostics, and code actions
+			-- start them
+			vim.lsp.enable(vim.tbl_keys(servers))
 
-			conform.setup({
+			-- replace on_attach with LspAttach
+			vim.api.nvim_create_autocmd("LspAttach", {
+				callback = function(args)
+					local bufnr = args.buf
+					map_lsp_keybinds(bufnr)
+					vim.api.nvim_buf_create_user_command(bufnr, "Format", function()
+						conform.format({ bufnr = bufnr })
+					end, { desc = "Format current buffer with LSP/Conform" })
+				end,
+			})
+
+			vim.lsp.inlay_hint.enable(true)
+
+			require("lspconfig.ui.windows").default_options.border = "rounded"
+			vim.diagnostic.config({ float = { border = "rounded" } })
+
+			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
 					python = { "ruff_lsp" },
@@ -137,20 +133,7 @@ return {
 					c = { "clang_format" },
 					cpp = { "clang_format" },
 				},
-				format_on_save = {
-					timeout_ms = 500,
-					lsp_fallback = true,
-				},
-			})
-
-			-- Configure borderd for LspInfo ui
-			require("lspconfig.ui.windows").default_options.border = "rounded"
-
-			-- Configure diagostics border
-			vim.diagnostic.config({
-				float = {
-					border = "rounded",
-				},
+				format_on_save = { timeout_ms = 500, lsp_fallback = true },
 			})
 		end,
 	},

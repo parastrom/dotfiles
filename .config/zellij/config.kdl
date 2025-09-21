@@ -1,0 +1,133 @@
+theme "kanso-ink"
+theme_dir "/home/andromeda/.config/zellij/themes/"
+layout_dir "/home/andromeda/.config/zellij/layouts/"
+
+default_mode "locked"
+pane_frames false
+mouse_mode false
+on_force_close "detach"
+session_serialization false
+disable_session_metadata true
+simplified_ui true
+
+plugins {
+  zjstatus location="file:~/.config/zellij/plugins/zjstatus.wasm" {
+    // minimal one-line status
+    format_left   "{mode}"
+    format_center "{tabs}"
+    format_right  ""
+    format_space  " "
+    format_hide_on_overlength "true"
+    format_precedence "lcr"
+
+    border_enabled "false"
+    hide_frame_for_single_pane "true"
+
+    // use theme colors; leave names so theme controls palette
+    color_bg0 "$bg"
+    color_fg0 "$fg"
+    color_text "$fg"
+    color_overlay "$bg"
+    mode_locked  "LOCK "
+    mode_normal  "NORM "
+    tab_active   "#[bold]{index}:{name} "
+    tab_normal   "{index}:{name} "
+    tab_separator " "
+  }
+}
+
+keybinds clear-defaults=true {
+ locked {
+    bind "Ctrl h" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "move_focus"; payload "left";
+      };
+    }
+    bind "Ctrl j" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "move_focus"; payload "down";
+      };
+    }
+    bind "Ctrl k" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "move_focus"; payload "up";
+      };
+    }
+    bind "Ctrl l" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "move_focus"; payload "right";
+      };
+    }
+
+    // optional resize on Alt-hjkl
+    bind "Alt h" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "resize"; payload "left";
+      };
+    }
+    bind "Alt j" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "resize"; payload "down";
+      };
+    }
+    bind "Alt k" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "resize"; payload "up";
+      };
+    }
+    bind "Alt l" {
+      MessagePlugin "file:~/.config/zellij/plugins/vim-zellij-navigator.wasm" {
+        name "resize"; payload "right";
+      };
+    }
+
+    bind "Ctrl a" { SwitchToMode "normal"; }
+  }
+
+  normal {
+    // panes
+    bind "-" { NewPane "Down"; SwitchToMode "locked"; }
+    bind "|" { NewPane "Right"; SwitchToMode "locked"; }
+    bind "x" { CloseFocus; SwitchToMode "locked"; }
+    bind "z" { ToggleFocusFullscreen; SwitchToMode "locked"; }
+    bind "o" { ToggleFocusFullscreen; SwitchToMode "locked"; }
+
+    // move focus
+    bind "h" { MoveFocus "Left"; SwitchToMode "locked"; }
+    bind "j" { MoveFocus "Down"; SwitchToMode "locked"; }
+    bind "k" { MoveFocus "Up"; SwitchToMode "locked"; }
+    bind "l" { MoveFocus "Right"; SwitchToMode "locked"; }
+
+    // resize
+    bind "H" { Resize "Left";  SwitchToMode "locked"; }
+    bind "J" { Resize "Down";  SwitchToMode "locked"; }
+    bind "K" { Resize "Up";    SwitchToMode "locked"; }
+    bind "L" { Resize "Right"; SwitchToMode "locked"; }
+
+    // tabs
+    bind "c" { NewTab; SwitchToMode "locked"; }
+    bind "n" { GoToNextTab; SwitchToMode "locked"; }
+    bind "p" { GoToPreviousTab; SwitchToMode "locked"; }
+    bind "y" { CloseTab; SwitchToMode "locked"; }
+
+    bind "1" { GoToTab 1; SwitchToMode "locked"; }
+    bind "2" { GoToTab 2; SwitchToMode "locked"; }
+    bind "3" { GoToTab 3; SwitchToMode "locked"; }
+    bind "4" { GoToTab 4; SwitchToMode "locked"; }
+    bind "5" { GoToTab 5; SwitchToMode "locked"; }
+    bind "6" { GoToTab 6; SwitchToMode "locked"; }
+    bind "7" { GoToTab 7; SwitchToMode "locked"; }
+    bind "8" { GoToTab 8; SwitchToMode "locked"; }
+    bind "9" { GoToTab 9; SwitchToMode "locked"; }
+
+    bind "a" { Write 1; SwitchToMode "locked"; }
+  }
+
+  shared_except "locked" {
+    bind "Ctrl q" { Quit; }
+    bind "esc" { SwitchToMode "locked"; }
+    bind "enter" { SwitchToMode "locked"; }
+  }
+}
+
+

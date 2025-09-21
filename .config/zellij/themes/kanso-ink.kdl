@@ -1,0 +1,15 @@
+themes {
+  kanso-ink {
+    bg     "#0b0e11"   // near-black
+    fg     "#c9d1d9"   // soft light
+    black  "#0b0e11"
+    red    "#ff6b6b"
+    green  "#7fd487"
+    yellow "#e5c07b"
+    blue   "#7aa2f7"
+    magenta "#c678dd"
+    cyan   "#56b6c2"
+    white  "#abb2bf"
+    orange "#d19a66"
+  }
+}
