@@ -20,26 +20,20 @@ return {
 			require("mason-lspconfig").setup({
 				ensure_installed = {
 					"bashls",
-					"cssls",
 					"clangd",
-					"gleam",
-					"graphql",
-					"html",
 					"jsonls",
 					"lua_ls",
 					"marksman",
-					"ocamllsp",
-					"prismals",
 					"pyright",
 					"ruff",
 					"solidity",
 					"sqlls",
-					"tailwindcss",
 					"ts_ls",
 					"yamlls",
 					"zls",
 				},
 				automatic_installation = true,
+				automatic_enable = false,
 			})
 
 			local default_handlers = {
@@ -51,10 +45,7 @@ return {
 			-- server-specific diffs only
 			local servers = {
 				bashls = {},
-				cssls = {},
 				clangd = { cmd = { "clangd", "--offset-encoding=utf-32" } },
-				gleam = {},
-				graphql = {},
 				html = {},
 				jsonls = {},
 				lua_ls = {
@@ -66,8 +57,6 @@ return {
 					},
 				},
 				marksman = {},
-				ocamllsp = {},
-				prismals = {},
 				pyright = {
 					settings = {
 						pyright = { disableOrganizeImports = true },
@@ -77,7 +66,6 @@ return {
 				ruff = {},
 				solidity = {},
 				sqlls = {},
-				tailwindcss = {},
 				ts_ls = {
 					settings = { experimental = { enableProjectDiagnostics = true } },
 					handlers = { ["textDocument/publishDiagnostics"] = {} },
@@ -120,12 +108,6 @@ return {
 				formatters_by_ft = {
 					lua = { "stylua" },
 					python = { "ruff_lsp" },
-					javascript = { "prettier" },
-					typescript = { "prettier" },
-					javascriptreact = { "prettier" },
-					typescriptreact = { "prettier" },
-					css = { "prettier" },
-					html = { "prettier" },
 					json = { "prettier" },
 					yaml = { "prettier" },
 					markdown = { "prettier" },
