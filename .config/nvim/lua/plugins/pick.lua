@@ -10,14 +10,14 @@ return {
 						local cols = vim.o.columns
 						local lines = vim.o.lines
 
-						local width = math.floor(cols * 0.40) -- 40% of width
-						local height = math.floor(lines * 0.70) -- 70% of height
+						local width = math.floor(cols) -- 100% of width
+						local height = math.floor(lines * 0.20) -- 70% of height
 
 						return {
 							anchor = "NW",
 							width = width,
 							height = height,
-							row = math.floor((lines - height) / 2),
+							row = lines - height - 1,
 							col = math.floor((cols - width) / 2),
 						}
 					end,
