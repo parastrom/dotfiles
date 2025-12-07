@@ -53,6 +53,9 @@ return {
 						Lua = {
 							workspace = { checkThirdParty = false },
 							telemetry = { enabled = false },
+							diagnostics = {
+								globals = { "vim" },
+							},
 						},
 					},
 				},

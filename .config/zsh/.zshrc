@@ -1,22 +1,19 @@
-# History in cache directory:
+# History
 HISTSIZE=50000
 SAVEHIST=50000
 HISTFILE=~/.cache/zsh/history
-setopt EXTENDED_HISTORY          # write the history file in the ":start:elapsed;command" format.
-setopt HIST_REDUCE_BLANKS        # remove superfluous blanks before recording entry.
-setopt SHARE_HISTORY             # share history between all sessions.
-setopt HIST_IGNORE_ALL_DUPS      # delete old recorded entry if new entry is a duplicate.
-# append to $HISTFILE instead of rewriting it each session
-setopt APPEND_HISTORY
-# write each command to $HISTFILE as you enter it
-setopt INC_APPEND_HISTORY
+setopt EXTENDED_HISTORY HIST_REDUCE_BLANKS SHARE_HISTORY HIST_IGNORE_ALL_DUPS
 
-# Basic auto/tab complete:
-autoload -U compinit
+# Completion (cached - only regenerate once per day)
+autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-compinit
-_comp_options+=(globdots)		# Include hidden files.
+if [[ -n ~/.cache/zsh/zcompdump(#qN.mh+24) ]]; then
+    compinit -d ~/.cache/zsh/zcompdump
+else
+    compinit -C -d ~/.cache/zsh/zcompdump
+fi
+_comp_options+=(globdots)
 
 # vi mode
 bindkey -v
@@ -59,13 +56,11 @@ bindkey -s '^o' 'lfcd\n'
 # Key binding for fzf history search
 fzf-history-widget() {
   local selected
-  # -l: list, -n: no line numbers, -r: reverse (newest first), 1: start at event 1
-  selected=$(fc -lnr 1 | fzf | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//')
-  BUFFER=$selected
-  zle end-of-line
+  selected=$(fc -rl 1 | sed 's/^[[:space:]]*[0-9]*[[:space:]]*//' | awk '!seen[$0]++' | fzf --no-sort --query="$LBUFFER")
+  [[ -n "$selected" ]] && BUFFER=$selected && CURSOR=$#BUFFER
+  zle redisplay
 }
 zle -N fzf-history-widget
-
 bindkey '^r' fzf-history-widget
 
 # Edit line in vim with ctrl-e:
@@ -88,11 +83,16 @@ TRAPWINCH() {
   zle && { zle reset-prompt; zle -R }
 }
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
+# Prompt & tools
 eval "$(oh-my-posh --init --shell zsh --config ~/.poshthemes/pure.omp.json)"
-eval "$(~/.local/bin/mise activate zsh)"
+eval "$(mise activate zsh)"
+
+# Lazy conda - only load when needed
+conda() {
+  unfunction conda
+  . "/home/andromeda/miniconda3/etc/profile.d/conda.sh"
+  conda "$@"
+}
 
 # Load zsh-syntax-highlighting; should be last.
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

@@ -66,12 +66,6 @@ return {
 					enabled = true,
 				},
 			},
-			{
-				"nvim-telescope/telescope-dap.nvim",
-				config = function()
-					require("telescope").load_extension("dap")
-				end,
-			},
 			"williamboman/mason.nvim",
 			"folke/edgy.nvim",
 		},

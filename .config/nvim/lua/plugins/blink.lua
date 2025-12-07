@@ -1,11 +1,10 @@
 return {
 	{
 		"saghen/blink.cmp",
-		lazy = false, -- lazy loading handled internally
+		event = "InsertEnter",
 		dependencies = {
 			"rafamadriz/friendly-snippets",
 		},
-		event = "InsertEnter",
 		version = "v1.*",
 		opts = {
 			completion = {
