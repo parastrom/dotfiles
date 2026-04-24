@@ -48,6 +48,9 @@ vim.opt.undofile = true
 -- Enable 24-bit color
 vim.opt.termguicolors = true
 
+-- Global border for all floating windows (hover, signature, diagnostics, LSP UI)
+vim.o.winborder = "rounded"
+
 -- Enable access to System Clipboard
 vim.opt.clipboard = "unnamedplus"
 

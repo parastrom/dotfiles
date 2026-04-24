@@ -48,7 +48,7 @@ return {
 						diagnostics = {
 							enable = true,
 							experimental = {
-								enable = true,
+								enable = false,
 							},
 							refreshSupport = false,
 						},

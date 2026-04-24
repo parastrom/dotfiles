@@ -93,45 +93,41 @@ nnoremap("<leader>no", "<cmd>noh<cr>")
 
 -- Goto next diagnostic of any severity
 nnoremap("]d", function()
-	vim.diagnostic.goto_next({})
+	vim.diagnostic.jump({ count = 1 })
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
 
 -- Goto previous diagnostic of any severity
 nnoremap("[d", function()
-	vim.diagnostic.goto_prev({})
+	vim.diagnostic.jump({ count = -1 })
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
 
 -- Goto next error diagnostic
 nnoremap("]e", function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.ERROR })
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
 
 -- Goto previous error diagnostic
 nnoremap("[e", function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.ERROR })
+	vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.ERROR })
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
 
 -- Goto next warning diagnostic
 nnoremap("]w", function()
-	vim.diagnostic.goto_next({ severity = vim.diagnostic.severity.WARN })
+	vim.diagnostic.jump({ count = 1, severity = vim.diagnostic.severity.WARN })
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
 
 -- Goto previous warning diagnostic
 nnoremap("[w", function()
-	vim.diagnostic.goto_prev({ severity = vim.diagnostic.severity.WARN })
+	vim.diagnostic.jump({ count = -1, severity = vim.diagnostic.severity.WARN })
 	vim.api.nvim_feedkeys("zz", "n", false)
 end)
 
-nnoremap("<leader>d", function()
-	vim.diagnostic.open_float({
-		border = "rounded",
-	})
-end)
+nnoremap("<leader>d", vim.diagnostic.open_float)
 
 nnoremap("<leader>bd", "<cmd>bprevious<cr><cmd>bdelete #<cr>", { desc = "[B]uffer [D]elete" })
 -- Place all dignostics into a qflist
@@ -149,8 +145,15 @@ nnoremap("<leader>co", ":copen<cr>zz")
 -- Close the qflist
 nnoremap("<leader>cc", ":cclose<cr>zz")
 
--- Map MaximizerToggle (szw/vim-maximizer) to leader-m
-nnoremap("<leader>m", ":MaximizerToggle<cr>")
+-- Toggle maximize current window by promoting it to its own tab
+nnoremap("<leader>m", function()
+	if vim.t.maximized then
+		vim.cmd("tabclose")
+	else
+		vim.cmd("tab split")
+		vim.t.maximized = true
+	end
+end, { desc = "Toggle maximize window" })
 
 -- Resize split windows to be equal size
 nnoremap("<leader>=", "<C-w>=")
@@ -231,6 +234,10 @@ end, { desc = "[G]it [F]iles" })
 nnoremap("<leader>sc", function()
 	require("mini.extra").pickers.commands()
 end, { desc = "[S]earch [C]ommands" })
+
+nnoremap("<leader>/", function()
+	require("mini.extra").pickers.buf_lines({ scope = "current" })
+end, { desc = "[/] Fuzzy search in current buffer" })
 
 -- LSP Keybinds (exports a function to be used in ../../after/plugin/lsp.lua b/c we need a reference to the current buffer) --
 

@@ -8,10 +8,10 @@ setopt EXTENDED_HISTORY HIST_REDUCE_BLANKS SHARE_HISTORY HIST_IGNORE_ALL_DUPS
 autoload -Uz compinit
 zstyle ':completion:*' menu select
 zmodload zsh/complist
-if [[ -n ~/.cache/zsh/zcompdump(#qN.mh+24) ]]; then
-    compinit -d ~/.cache/zsh/zcompdump
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+    compinit -d ${ZDOTDIR}/.zcompdump
 else
-    compinit -C -d ~/.cache/zsh/zcompdump
+    compinit -C -d ${ZDOTDIR}/.zcompdump
 fi
 _comp_options+=(globdots)
 

@@ -5,11 +5,19 @@ return {
 		dependencies = {
 			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
 			"MunifTanjim/nui.nvim",
-			"rcarriga/nvim-notify",
 		},
 		opts = {
 			cmdline = {
 				view = "cmdline",
+			},
+			notify = {
+				enabled = true,
+				view = "mini",
+			},
+			messages = {
+				view = "mini",
+				view_error = "mini",
+				view_warn = "mini",
 			},
 			lsp = {
 				-- override markdown rendering so that **cmp** and other plugins use **Treesitter**

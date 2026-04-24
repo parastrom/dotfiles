@@ -6,15 +6,11 @@ return {
 		dependencies = {
 			"williamboman/mason.nvim",
 			"williamboman/mason-lspconfig.nvim",
-			"folke/neodev.nvim",
 			"stevearc/conform.nvim",
-			{ "j-hui/fidget.nvim", tag = "legacy" },
 		},
 		config = function()
 			local conform = require("conform")
 			local map_lsp_keybinds = require("user.keymaps").map_lsp_keybinds
-
-			require("neodev").setup()
 
 			require("mason").setup({ ui = { border = "rounded" } })
 			require("mason-lspconfig").setup({
@@ -24,7 +20,7 @@ return {
 					"jsonls",
 					"lua_ls",
 					"marksman",
-					"pyright",
+					"ty",
 					"ruff",
 					"solidity",
 					"sqlls",
@@ -35,12 +31,6 @@ return {
 				automatic_installation = true,
 				automatic_enable = false,
 			})
-
-			local default_handlers = {
-				["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" }),
-				["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" }),
-			}
-			local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 			-- server-specific diffs only
 			local servers = {
@@ -60,12 +50,7 @@ return {
 					},
 				},
 				marksman = {},
-				pyright = {
-					settings = {
-						pyright = { disableOrganizeImports = true },
-						python = { analysis = { ignore = { "*" }, typeCheckingMode = "standard" } },
-					},
-				},
+				ty = {},
 				ruff = {},
 				solidity = {},
 				sqlls = {},
@@ -80,9 +65,8 @@ return {
 			-- new API: register configs
 			for name, cfg in pairs(servers) do
 				vim.lsp.config(name, {
-					capabilities = capabilities,
 					filetypes = cfg.filetypes,
-					handlers = vim.tbl_deep_extend("force", {}, default_handlers, cfg.handlers or {}),
+					handlers = cfg.handlers,
 					settings = cfg.settings,
 					cmd = cfg.cmd,
 				})
@@ -95,6 +79,10 @@ return {
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					local bufnr = args.buf
+					local client = vim.lsp.get_client_by_id(args.data.client_id)
+					if client and client.name == "ruff" then
+						client.server_capabilities.hoverProvider = false
+					end
 					map_lsp_keybinds(bufnr)
 					vim.api.nvim_buf_create_user_command(bufnr, "Format", function()
 						conform.format({ bufnr = bufnr })
@@ -104,13 +92,10 @@ return {
 
 			vim.lsp.inlay_hint.enable(true)
 
-			require("lspconfig.ui.windows").default_options.border = "rounded"
-			vim.diagnostic.config({ float = { border = "rounded" } })
-
 			require("conform").setup({
 				formatters_by_ft = {
 					lua = { "stylua" },
-					python = { "ruff_lsp" },
+					python = { "ruff_format" },
 					json = { "prettier" },
 					yaml = { "prettier" },
 					markdown = { "prettier" },
