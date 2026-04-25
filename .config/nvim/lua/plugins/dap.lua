@@ -67,17 +67,14 @@ return {
 				},
 			},
 			"williamboman/mason.nvim",
-			"folke/edgy.nvim",
 		},
 		config = function()
-			require("dapui").setup(opts)
 			local dap = require("dap")
 			local dapui = require("dapui")
 			dapui.setup()
 
 			dap.listeners.after.event_initialized["dapui_config"] = function()
 				dapui.open()
-				require("edgy").close()
 			end
 			-- dap.listeners.before.event_terminated["dapui_config"] = function()
 			-- 	dapui.close()

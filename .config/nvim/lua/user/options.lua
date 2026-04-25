@@ -49,7 +49,7 @@ vim.opt.undofile = true
 vim.opt.termguicolors = true
 
 -- Global border for all floating windows (hover, signature, diagnostics, LSP UI)
-vim.o.winborder = "rounded"
+vim.o.winborder = "single"
 
 -- Enable access to System Clipboard
 vim.opt.clipboard = "unnamedplus"
@@ -57,13 +57,10 @@ vim.opt.clipboard = "unnamedplus"
 -- Enable cursor line highlight
 vim.opt.cursorline = true
 
--- Set fold settings
--- These options were reccommended by nvim-ufo
--- See: https://github.com/kevinhwang91/nvim-ufo#minimal-configuration
+-- Fold settings: start with all folds open, no fold column gutter
 vim.opt.foldcolumn = "0"
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
-vim.opt.foldenable = true
 
 -- Always keep 8 lines above/below cursor unless at start/end of file
 vim.opt.scrolloff = 8

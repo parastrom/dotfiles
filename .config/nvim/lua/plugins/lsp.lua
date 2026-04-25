@@ -62,9 +62,12 @@ return {
 				zls = {},
 			}
 
+			local capabilities = require("blink.cmp").get_lsp_capabilities()
+
 			-- new API: register configs
 			for name, cfg in pairs(servers) do
 				vim.lsp.config(name, {
+					capabilities = capabilities,
 					filetypes = cfg.filetypes,
 					handlers = cfg.handlers,
 					settings = cfg.settings,
